@@ -85,21 +85,21 @@ void animate_flame_particles(uint8_t frame) {
 
   if(frame % 4 == 0) {
     for(uint8_t i = 0; i < PARTICLE_COUNT; i++) {
-      screen.drawRect(x[i], y[i], 1, 1, COLOR_BG);
+      screen.drawPixel(x[i], y[i], COLOR_BG);
 
       x[i] = random(FLAME_MIN_X, FLAME_MAX_X);
       y[i] = random(FLAME_MIN_Y, FLAME_MAX_Y);
 
-      screen.drawRect(x[i], y[i], 1, 1, RGB(242, 50, 18));
+      screen.drawPixel(x[i], y[i], RGB(242, 50, 18));
     }
   }
 }
 
 void animate_start_text(uint8_t frame) {
 
- static bool show = true;
+  static bool show = true;
 
- if(frame == 0) {
+  if(frame == 0) {
    screen.setTextColor(show ? COLOR_TEXT : COLOR_BG);
    show = !show;
 
@@ -108,7 +108,7 @@ void animate_start_text(uint8_t frame) {
                               strlen(splash_press_button)) / 2, 100);
 
    screen.print(splash_press_button);
- }
+  }
 }
 
 void setup_screen() {
