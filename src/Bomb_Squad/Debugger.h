@@ -1,34 +1,16 @@
 #ifndef DEBUGGER_H_
 #define DEBUGGER_H_
 
-#include "Arduino.h"
+#ifdef USE_DEBUG
+#define DEBUG_START(baud) Serial.begin((baud))
+#define DEBUG(text) Serial.println(text)
+#define DEBUGP(text) Serial.print(text)
 
-#ifndef USE_DEBUG
-#define USE_DEBUG true
+#else
+#define DEBUG_START
+#define DEBUG(text)
+#define DEBUGP(text)
+
 #endif
-
-// Starts serial only if debugging is on.
-void debug_start() {
-
-  if(USE_DEBUG)
-    Serial.begin(9600);
-}
-
-/**
- * Writes the text to serial only if debugging is on.
- *
- * If debugging is set to false, the compiler will not include the string in the
- * compiled program, meaning you wont waste any space on unused strings. :)
- *
- * Note: If you change the parameter to 'String' instead of 'char *' the
- * compiler will not exclude the strings from your code when compiling.
- *
- * @param text to write
- */
-void debug(char *text) {
-
-  if(USE_DEBUG)
-    Serial.println(text);
-}
 
 #endif

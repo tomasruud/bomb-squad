@@ -1,6 +1,9 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
-#define RGB(R, G, B) ((((R) >> 2) << 11) | (((G) >> 1) << 4) | ((B) >> 2))
+#define RGB(R, G, B) ((((R) & 0xF8) << 8) | (((G) & 0xFC) << 3) | ((B) >> 3))
+
+#define COLOR_BG RGB(76, 20, 87)
+#define COLOR_TEXT RGB(255, 255, 255)
 
 #endif
