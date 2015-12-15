@@ -5,13 +5,15 @@
 
 #define SPLASH_FILE "splash.bmp"
 
-#define FLAME_MIN_X 99
-#define FLAME_MAX_X 104
+#define FLAME_X 95
+#define FLAME_MAX_X 5
 
-#define FLAME_MIN_Y 14
-#define FLAME_MAX_Y 18
+#define FLAME_Y 14
+#define FLAME_MAX_Y 4
 
 #define PARTICLE_COUNT 5
+#define PARTICLE_INDEX(var, i) ((var >> (i * 3)) & 0x7)
+#define PARTICLE_SET(var, i, new) (var & ~(0x7 << (i * 3))) | ((new & 0x7) << (i * 3))
 
 class SplashScene : public Scene {
   public:

@@ -33,30 +33,21 @@ void SplashScene::AnimateText(unsigned char frame) {
 
 void SplashScene::AnimateParticles(unsigned char frame) {
 
-  static unsigned char x[PARTICLE_COUNT] = {
-    random(FLAME_MIN_X, FLAME_MAX_X),
-    random(FLAME_MIN_X, FLAME_MAX_X),
-    random(FLAME_MIN_X, FLAME_MAX_X),
-    random(FLAME_MIN_X, FLAME_MAX_X),
-    random(FLAME_MIN_X, FLAME_MAX_X)
-  };
-
-  static unsigned char y[PARTICLE_COUNT] = {
-    random(FLAME_MIN_Y, FLAME_MAX_Y),
-    random(FLAME_MIN_Y, FLAME_MAX_Y),
-    random(FLAME_MIN_Y, FLAME_MAX_Y),
-    random(FLAME_MIN_Y, FLAME_MAX_Y),
-    random(FLAME_MIN_Y, FLAME_MAX_Y)
-  };
+  static unsigned short x = 0;
+  static unsigned short y = 0;
 
   if(frame % 4 == 0) {
     for(unsigned char i = 0; i < PARTICLE_COUNT; i++) {
-      _screen->drawPixel(x[i], y[i], COLOR_BG);
+      _screen->drawPixel(FLAME_X + PARTICLE_INDEX(x, i),
+                         FLAME_Y + PARTICLE_INDEX(y, i),
+                         COLOR_BG);
 
-      x[i] = random(FLAME_MIN_X, FLAME_MAX_X);
-      y[i] = random(FLAME_MIN_Y, FLAME_MAX_Y);
+      x = PARTICLE_SET(x, i, random(FLAME_MAX_X));
+      y = PARTICLE_SET(y, i, random(FLAME_MAX_Y));
 
-      _screen->drawPixel(x[i], y[i], RGB(242, 50, 18));
+      _screen->drawPixel(FLAME_X + PARTICLE_INDEX(x, i),
+                         FLAME_Y + PARTICLE_INDEX(y, i),
+                         RGB(242, 50, 18));
     }
   }
 }
