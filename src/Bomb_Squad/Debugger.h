@@ -7,7 +7,7 @@
 #define DEBUGP(text) Serial.print(text)
 
 #else
-#define DEBUG_START
+#define DEBUG_START(baud)
 #define DEBUG(text)
 #define DEBUGP(text)
 

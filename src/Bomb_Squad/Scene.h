@@ -1,0 +1,17 @@
+#ifndef SCENE_H_
+#define SCENE_H_
+
+#include <TFT.h>
+
+class Scene {
+  protected:
+    TFT *_screen;
+
+  public:
+    Scene(TFT *screen) { _screen = screen; }
+
+    virtual char *Bootstrap() { return NULL; }
+    virtual void HandleFrame(unsigned char frame) {}
+};
+
+#endif
