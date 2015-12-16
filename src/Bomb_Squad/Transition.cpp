@@ -28,4 +28,6 @@ void Transition::ThatsAllFolks() {
 
     delay(TRANSITION_MS / TFT_H);
   }
+
+  delay(50);
 }

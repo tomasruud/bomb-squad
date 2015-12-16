@@ -10,36 +10,26 @@
 
 #include "Colors.h"
 #include "Display.h"
+#include "Image.h"
 #include "Pins.h"
 #include "Pitches.h"
 #include "Scene.h"
-#include "Scenes.h"
+#include "Scene_Factory.h"
+#include "Scene_ID.h"
 #include "Transition.h"
-
-#include "Splash_Scene.h"
 
 #define INPUT_READ_RATE 10
 
-#define DISABLE_AUDIO false
-#define MUSIC_BARS 8
-#define MUSIC_INTERVAL 1000 / MUSIC_BARS
-
 TFT screen = TFT(TFT_CS, TFT_DC, TFT_RST);
-
-Scene *scenes[] = {
-  new SplashScene(&screen)
-};
 
 ThreadController thread_pool;
 Thread gui_thread;
 Thread input_thread;
-Thread audio_thread;
 
 Transition transition = Transition(&screen);
 
 SceneID current_scene_id;
 Scene *current_scene;
-PImage buffer_image;
 
 void setup() {
 
@@ -58,51 +48,33 @@ void setup() {
   input_thread.onRun(read_input);
   input_thread.setInterval(INPUT_READ_RATE);
 
-  audio_thread.onRun(play_audio);
-  audio_thread.setInterval(MUSIC_INTERVAL);
-
   thread_pool.add(&gui_thread);
   thread_pool.add(&input_thread);
-  thread_pool.add(&audio_thread);
 
-  current_scene_id = SPLASH_SCREEN;
+  current_scene_id = SceneID_Splash;
   load_scene();
 }
 
 void loop() {
 
   thread_pool.run();
-
-  DEBUG(analogRead(KNOB_PIN));
 }
 
 void load_scene() {
 
-  current_scene = scenes[current_scene_id];
+  current_scene = SceneFactory::Create(current_scene_id, &screen);
+
+  if(current_scene == NULL) {
+    screen.setTextColor(COLOR_TEXT);
+    screen.setCursor(4, 4);
+    screen.println("No scene");
+    return;
+  }
 
   char *image = current_scene->Bootstrap();
 
-  if(image != NULL) {
-    buffer_image = screen.loadImage(image);
-    screen.image(buffer_image, 0, 0);
-  }
-}
-
-void play_audio() {
-
-  if(DISABLE_AUDIO)
-    return;
-
-  static unsigned char bar = 0;
-
-  if(bar == 0) {
-    tone(AUDIO_PIN, NOTE_G2, 1000 / 4);
-  }
-
-  if(bar >= MUSIC_BARS)
-    bar = 0;
-  else
-    bar++;
+  if(image != NULL)
+    draw_image(&screen, image, 0, 0);
 }
 
 void read_input() {
@@ -112,8 +84,10 @@ void read_input() {
 
     // Change scene only if neccesarry
     if(next != current_scene_id) {
-      current_scene_id = next;
+      delete current_scene;
       current_scene = NULL;
+
+      current_scene_id = next;
 
       transition.ThatsAllFolks();
 
@@ -160,11 +134,9 @@ void setup_pins() {
 
   pinMode(JOY_X_PIN, INPUT);
   pinMode(JOY_Y_PIN, INPUT);
-  pinMode(JOY_SW_PIN, INPUT);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   pinMode(AUDIO_PIN, OUTPUT);
-
-  pinMode(BUTTON_PIN, INPUT);
 
   pinMode(KNOB_PIN, INPUT);
 }

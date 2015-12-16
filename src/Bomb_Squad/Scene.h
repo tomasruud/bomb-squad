@@ -2,7 +2,8 @@
 #define SCENE_H_
 
 #include <TFT.h>
-#include "Scenes.h"
+
+#include "Scene_ID.h"
 
 class Scene {
   protected:

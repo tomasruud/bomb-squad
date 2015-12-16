@@ -17,10 +17,10 @@ void SplashScene::HandleFrame(unsigned char frame) {
 
 SceneID SplashScene::HandleInput() {
 
-  if(digitalRead(BUTTON_PIN) == HIGH)
-    return DIFFICULTY_SCREEN;
+  if(digitalRead(BUTTON_PIN) == BUTTON_PRESSED)
+    return SceneID_Difficulty;
 
-  return SPLASH_SCREEN;
+  return SceneID_Splash;
 }
 
 void SplashScene::AnimateText(unsigned char frame) {
