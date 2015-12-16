@@ -34,6 +34,7 @@ SceneID current_scene_id;
 Scene *current_scene;
 
 unsigned char g_level = 0;
+unsigned char g_difficulty = 0;
 
 void setup() {
 
@@ -65,6 +66,9 @@ void loop() {
 }
 
 void load_scene() {
+
+  DEBUGP("Difficulty: ");
+  DEBUG(g_difficulty);
 
   current_scene = SceneFactory::Create(current_scene_id, &screen);
 
