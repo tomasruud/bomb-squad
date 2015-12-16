@@ -20,6 +20,8 @@ void DifficultyScene::HandleFrame(unsigned char frame) {
     _screen->drawChar(OPTION_X, _option_locations[_option],
                       '<', COLOR_GREEN, COLOR_BG, FONT_SIZE_LARGE);
   }
+
+  AnimateParticles(frame);
 }
 
 SceneID DifficultyScene::HandleInput() {
@@ -55,4 +57,20 @@ SceneID DifficultyScene::HandleInput() {
 
 
   return SceneID_Difficulty;
+}
+
+void DifficultyScene::AnimateParticles(unsigned char frame) {
+
+  if(frame % 4 == 0) {
+    for(unsigned char i = 0; i < PARTICLE_COUNT; i++) {
+      _screen->drawPixel(FLAME_X + PARTICLE_INDEX(_x, i),
+                         FLAME_Y + PARTICLE_INDEX(_y, i), COLOR_BG);
+
+      _x = PARTICLE_SET(_x, i, random(FLAME_MAX_X));
+      _y = PARTICLE_SET(_y, i, random(FLAME_MAX_Y));
+
+      _screen->drawPixel(FLAME_X + PARTICLE_INDEX(_x, i),
+                         FLAME_Y + PARTICLE_INDEX(_y, i), RGB(242, 50, 18));
+    }
+  }
 }
