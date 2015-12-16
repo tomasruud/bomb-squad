@@ -3,10 +3,11 @@
 #include "Display.h"
 #include "Pins.h"
 #include "Globals.h"
+#include "Image.h"
 
-char *DifficultyScene::Bootstrap() {
+void DifficultyScene::Bootstrap() {
 
-  return DIFFICULTY_FILE;
+  draw_image(_screen, DIFFICULTY_FILE, 0, 0);
 }
 
 void DifficultyScene::HandleFrame(unsigned char frame) {

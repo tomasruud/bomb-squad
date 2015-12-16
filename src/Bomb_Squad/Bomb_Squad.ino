@@ -50,7 +50,7 @@ void setup() {
   gui_thread.onRun(gui_render);
   gui_thread.setInterval(FRAME_DURATION);
 
-  input_thread.onRun(read_input);
+  input_thread.onRun(handle_input);
   input_thread.setInterval(INPUT_READ_RATE);
 
   thread_pool.add(&gui_thread);
@@ -79,13 +79,10 @@ void load_scene() {
     return;
   }
 
-  char *image = current_scene->Bootstrap();
-
-  if(image != NULL)
-    draw_image(&screen, image, 0, 0);
+  current_scene->Bootstrap();
 }
 
-void read_input() {
+void handle_input() {
 
   if(current_scene != NULL) {
     SceneID next = current_scene->HandleInput();

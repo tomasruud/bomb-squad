@@ -19,7 +19,7 @@ class SplashScene : public Scene {
   public:
     SplashScene(TFT *screen) : Scene(screen) {}
 
-    virtual char *Bootstrap();
+    virtual void Bootstrap();
     virtual void HandleFrame(unsigned char frame);
     virtual SceneID HandleInput();
 

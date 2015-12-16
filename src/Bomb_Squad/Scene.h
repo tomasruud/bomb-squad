@@ -12,7 +12,7 @@ class Scene {
   public:
     Scene(TFT *screen) { _screen = screen; }
 
-    virtual char *Bootstrap() { return NULL; }
+    virtual void Bootstrap() {}
     virtual void HandleFrame(unsigned char frame) {}
     virtual SceneID HandleInput() {}
 };

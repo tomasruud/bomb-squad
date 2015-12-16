@@ -22,7 +22,7 @@ class DifficultyScene : public Scene {
   public:
     DifficultyScene(TFT *screen) : Scene(screen) {}
 
-    virtual char *Bootstrap();
+    virtual void Bootstrap();
     virtual void HandleFrame(unsigned char frame);
     virtual SceneID HandleInput();
 

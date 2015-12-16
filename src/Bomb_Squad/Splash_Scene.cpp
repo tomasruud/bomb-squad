@@ -3,10 +3,11 @@
 #include "Colors.h"
 #include "Pins.h"
 #include "Arduino.h"
+#include "Image.h"
 
-char *SplashScene::Bootstrap() {
+void SplashScene::Bootstrap() {
 
-  return SPLASH_FILE;
+  draw_image(_screen, SPLASH_FILE, 0, 0);
 }
 
 void SplashScene::HandleFrame(unsigned char frame) {
