@@ -5,7 +5,7 @@
 
 #define SPLASH_FILE "splash.bmp"
 
-#define FLAME_X 95
+#define FLAME_X 96
 #define FLAME_MAX_X 5
 
 #define FLAME_Y 14
@@ -21,8 +21,13 @@ class SplashScene : public Scene {
 
     virtual char *Bootstrap();
     virtual void HandleFrame(unsigned char frame);
+    virtual SceneID HandleInput();
 
   private:
+    bool _show = true;
+    unsigned short _x = 0;
+    unsigned short _y = 0;
+
     void AnimateParticles(unsigned char frame);
     void AnimateText(unsigned char frame);
 };

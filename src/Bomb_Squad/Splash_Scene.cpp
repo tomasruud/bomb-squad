@@ -1,7 +1,8 @@
 #include "Splash_Scene.h"
 #include "Display.h"
-#include "Strings.h"
-#include "Color.h"
+#include "Colors.h"
+#include "Pins.h"
+#include "Arduino.h"
 
 char *SplashScene::Bootstrap() {
 
@@ -14,14 +15,21 @@ void SplashScene::HandleFrame(unsigned char frame) {
   AnimateText(frame);
 }
 
+SceneID SplashScene::HandleInput() {
+
+  if(digitalRead(BUTTON_PIN) == HIGH)
+    return DIFFICULTY_SCREEN;
+
+  return SPLASH_SCREEN;
+}
+
 void SplashScene::AnimateText(unsigned char frame) {
 
-  static bool show = true;
   const char splash_press_button[] = "[PRESS BUTTON]";
 
   if(frame == 0) {
-    _screen->setTextColor(show ? COLOR_TEXT : COLOR_BG);
-    show = !show;
+    _screen->setTextColor(_show ? COLOR_TEXT : COLOR_BG);
+    _show = !_show;
 
     _screen->setTextSize(FONT_SIZE_SMALL);
     _screen->setCursor(TFT_W2 - (FONT_SIZE_SMALL * FONT_WIDTH *
@@ -33,21 +41,16 @@ void SplashScene::AnimateText(unsigned char frame) {
 
 void SplashScene::AnimateParticles(unsigned char frame) {
 
-  static unsigned short x = 0;
-  static unsigned short y = 0;
-
   if(frame % 4 == 0) {
     for(unsigned char i = 0; i < PARTICLE_COUNT; i++) {
-      _screen->drawPixel(FLAME_X + PARTICLE_INDEX(x, i),
-                         FLAME_Y + PARTICLE_INDEX(y, i),
-                         COLOR_BG);
+      _screen->drawPixel(FLAME_X + PARTICLE_INDEX(_x, i),
+                         FLAME_Y + PARTICLE_INDEX(_y, i), COLOR_BG);
 
-      x = PARTICLE_SET(x, i, random(FLAME_MAX_X));
-      y = PARTICLE_SET(y, i, random(FLAME_MAX_Y));
+      _x = PARTICLE_SET(_x, i, random(FLAME_MAX_X));
+      _y = PARTICLE_SET(_y, i, random(FLAME_MAX_Y));
 
-      _screen->drawPixel(FLAME_X + PARTICLE_INDEX(x, i),
-                         FLAME_Y + PARTICLE_INDEX(y, i),
-                         RGB(242, 50, 18));
+      _screen->drawPixel(FLAME_X + PARTICLE_INDEX(_x, i),
+                         FLAME_Y + PARTICLE_INDEX(_y, i), RGB(242, 50, 18));
     }
   }
 }

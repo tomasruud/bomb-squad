@@ -11,9 +11,18 @@
 #include "Colors.h"
 #include "Display.h"
 #include "Pins.h"
+#include "Pitches.h"
 #include "Scene.h"
+#include "Scenes.h"
+#include "Transition.h"
 
 #include "Splash_Scene.h"
+
+#define INPUT_READ_RATE 10
+
+#define DISABLE_AUDIO false
+#define MUSIC_BARS 8
+#define MUSIC_INTERVAL 1000 / MUSIC_BARS
 
 TFT screen = TFT(TFT_CS, TFT_DC, TFT_RST);
 
@@ -23,7 +32,12 @@ Scene *scenes[] = {
 
 ThreadController thread_pool;
 Thread gui_thread;
+Thread input_thread;
+Thread audio_thread;
 
+Transition transition = Transition(&screen);
+
+SceneID current_scene_id;
 Scene *current_scene;
 PImage buffer_image;
 
@@ -41,24 +55,32 @@ void setup() {
   gui_thread.onRun(gui_render);
   gui_thread.setInterval(FRAME_DURATION);
 
-  thread_pool.add(&gui_thread);
+  input_thread.onRun(read_input);
+  input_thread.setInterval(INPUT_READ_RATE);
 
-  load_scene(0);
+  audio_thread.onRun(play_audio);
+  audio_thread.setInterval(MUSIC_INTERVAL);
+
+  thread_pool.add(&gui_thread);
+  thread_pool.add(&input_thread);
+  thread_pool.add(&audio_thread);
+
+  current_scene_id = SPLASH_SCREEN;
+  load_scene();
 }
 
 void loop() {
 
   thread_pool.run();
+
+  DEBUG(analogRead(KNOB_PIN));
 }
 
-void load_scene(unsigned char scene) {
+void load_scene() {
 
-  current_scene = scenes[scene];
+  current_scene = scenes[current_scene_id];
 
   char *image = current_scene->Bootstrap();
-
-  DEBUGP("Loading: ");
-  DEBUG(image);
 
   if(image != NULL) {
     buffer_image = screen.loadImage(image);
@@ -66,11 +88,46 @@ void load_scene(unsigned char scene) {
   }
 }
 
+void play_audio() {
+
+  if(DISABLE_AUDIO)
+    return;
+
+  static unsigned char bar = 0;
+
+  if(bar == 0) {
+    tone(AUDIO_PIN, NOTE_G2, 1000 / 4);
+  }
+
+  if(bar >= MUSIC_BARS)
+    bar = 0;
+  else
+    bar++;
+}
+
+void read_input() {
+
+  if(current_scene != NULL) {
+    SceneID next = current_scene->HandleInput();
+
+    // Change scene only if neccesarry
+    if(next != current_scene_id) {
+      current_scene_id = next;
+      current_scene = NULL;
+
+      transition.ThatsAllFolks();
+
+      load_scene();
+    }
+  }
+}
+
 void gui_render() {
 
   static unsigned char frame = 0;
 
-  current_scene->HandleFrame(frame);
+  if(current_scene != NULL)
+    current_scene->HandleFrame(frame);
 
   if(frame >= FPS)
     frame = 0;
@@ -108,4 +165,6 @@ void setup_pins() {
   pinMode(AUDIO_PIN, OUTPUT);
 
   pinMode(BUTTON_PIN, INPUT);
+
+  pinMode(KNOB_PIN, INPUT);
 }

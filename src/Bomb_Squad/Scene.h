@@ -2,6 +2,7 @@
 #define SCENE_H_
 
 #include <TFT.h>
+#include "Scenes.h"
 
 class Scene {
   protected:
@@ -12,6 +13,7 @@ class Scene {
 
     virtual char *Bootstrap() { return NULL; }
     virtual void HandleFrame(unsigned char frame) {}
+    virtual SceneID HandleInput() {}
 };
 
 #endif

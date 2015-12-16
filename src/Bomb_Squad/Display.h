@@ -6,6 +6,8 @@
 #define TFT_W2 80
 #define TFT_H2 64
 
+#define TFT_DIAG2 103
+
 #define FONT_WIDTH 6
 #define FONT_HEIGHT 9
 
