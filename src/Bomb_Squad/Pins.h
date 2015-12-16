@@ -14,10 +14,10 @@
 
 #define AUDIO_PIN 6
 
-#define JOY_X_PIN A3
-#define JOY_Y_PIN A4
+#define JOY_Y_PIN A3
+#define JOY_X_PIN A4
 
-#define BUTTON_PRESSED LOW
+#define BUTTON_DOWN LOW
 #define BUTTON_PIN 5
 
 #define KNOB_PIN A5

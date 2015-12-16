@@ -17,7 +17,7 @@ void SplashScene::HandleFrame(unsigned char frame) {
 
 SceneID SplashScene::HandleInput() {
 
-  if(digitalRead(BUTTON_PIN) == BUTTON_PRESSED)
+  if(digitalRead(BUTTON_PIN) == BUTTON_DOWN)
     return SceneID_Difficulty;
 
   return SceneID_Splash;

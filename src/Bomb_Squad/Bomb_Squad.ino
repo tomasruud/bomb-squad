@@ -10,6 +10,7 @@
 
 #include "Colors.h"
 #include "Display.h"
+#include "Globals.h"
 #include "Image.h"
 #include "Pins.h"
 #include "Pitches.h"
@@ -19,6 +20,7 @@
 #include "Transition.h"
 
 #define INPUT_READ_RATE 10
+#define BOOT_SCENE SceneID_Splash
 
 TFT screen = TFT(TFT_CS, TFT_DC, TFT_RST);
 
@@ -30,6 +32,8 @@ Transition transition = Transition(&screen);
 
 SceneID current_scene_id;
 Scene *current_scene;
+
+unsigned char g_level = 0;
 
 void setup() {
 
@@ -51,7 +55,7 @@ void setup() {
   thread_pool.add(&gui_thread);
   thread_pool.add(&input_thread);
 
-  current_scene_id = SceneID_Splash;
+  current_scene_id = BOOT_SCENE;
   load_scene();
 }
 

@@ -6,4 +6,6 @@
 #define COLOR_BG RGB(76, 20, 87)
 #define COLOR_TEXT RGB(255, 255, 255)
 
+#define COLOR_GREEN RGB(129, 255, 111)
+
 #endif
