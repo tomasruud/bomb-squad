@@ -7,7 +7,11 @@
 
 void DifficultyScene::Bootstrap() {
 
-  draw_image(_screen, DIFFICULTY_FILE, 0, 0);
+  draw_image(_screen, "diff/header.bmp", 9, 16);
+  draw_image(_screen, "diff/easy.bmp", 94, 54);
+  draw_image(_screen, "diff/med.bmp", 70, 72);
+  draw_image(_screen, "diff/hard.bmp", 92, 90);
+  draw_image(_screen, "diff/logo.bmp", 17, 57);
 }
 
 void DifficultyScene::HandleFrame(unsigned char frame) {

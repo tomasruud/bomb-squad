@@ -4,8 +4,6 @@
 #include "Scene.h"
 #include "Joystick.h"
 
-#define DIFFICULTY_FILE "diffclty.bmp"
-
 #define FLAME_X 32
 #define FLAME_Y 59
 
