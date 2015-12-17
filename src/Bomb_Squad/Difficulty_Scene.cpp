@@ -53,7 +53,7 @@ SceneID DifficultyScene::HandleInput() {
 
   if(digitalRead(BUTTON_PIN) == BUTTON_DOWN) {
     g_difficulty = _option;
-    return SceneID_Splash;
+    return SceneID_Instructions;
   }
 
 

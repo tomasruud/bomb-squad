@@ -2,6 +2,7 @@
 
 #include "Splash_Scene.h"
 #include "Difficulty_Scene.h"
+#include "Instruction_Scene.h"
 
 Scene *SceneFactory::Create(SceneID id, TFT *screen) {
 
@@ -11,6 +12,9 @@ Scene *SceneFactory::Create(SceneID id, TFT *screen) {
 
     case SceneID_Difficulty:
       return new DifficultyScene(screen);
+
+    case SceneID_Instructions:
+      return new InstructionScene(screen);
   }
 
   return NULL;

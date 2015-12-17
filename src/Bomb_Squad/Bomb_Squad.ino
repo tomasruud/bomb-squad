@@ -88,7 +88,7 @@ void handle_input() {
     SceneID next = current_scene->HandleInput();
 
     // Change scene only if neccesarry
-    if(next != current_scene_id) {
+    if(next != NULL && next != current_scene_id) {
       delete current_scene;
       current_scene = NULL;
 

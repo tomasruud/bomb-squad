@@ -3,8 +3,6 @@
 
 #include "Scene.h"
 
-#define SPLASH_FILE "splash.bmp"
-
 #define FLAME_X 96
 #define FLAME_MAX_X 5
 
