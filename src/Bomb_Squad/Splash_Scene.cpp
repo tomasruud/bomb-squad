@@ -1,7 +1,7 @@
 #include "Splash_Scene.h"
 #include "Display.h"
 #include "Colors.h"
-#include "Pins.h"
+#include "Button.h"
 #include "Arduino.h"
 #include "Image.h"
 
@@ -19,7 +19,7 @@ void SplashScene::HandleFrame(unsigned char frame) {
 
 SceneID SplashScene::HandleInput() {
 
-  if(digitalRead(BUTTON_PIN) == BUTTON_DOWN)
+  if(BUTTON_IS_DOWN)
     return SceneID_Difficulty;
 
   return SceneID_Splash;

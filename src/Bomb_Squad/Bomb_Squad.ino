@@ -1,6 +1,3 @@
-#define USE_DEBUG
-#include "Debugger.h"
-
 #include <Thread.h>
 #include <ThreadController.h>
 
@@ -9,6 +6,7 @@
 #include <TFT.h>
 
 #include "Colors.h"
+#include "Debugger.h"
 #include "Display.h"
 #include "Globals.h"
 #include "Image.h"
@@ -66,9 +64,6 @@ void loop() {
 }
 
 void load_scene() {
-
-  DEBUGP("Difficulty: ");
-  DEBUG(g_difficulty);
 
   current_scene = SceneFactory::Create(current_scene_id, &screen);
 

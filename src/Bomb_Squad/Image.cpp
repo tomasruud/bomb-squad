@@ -40,8 +40,8 @@ void draw_image(TFT *screen, char *filename, uint8_t x, uint8_t y) {
   if (image_file == NULL)
     return;
 
-  uint8_t sdbuffer[3 * BUFFPIXEL];
-  uint8_t buffidx = sizeof(sdbuffer);
+  uint8_t sdbuffer[BUFFER_SIZE];
+  uint8_t buffidx = BUFFER_SIZE;
 
   if(read2(image_file) == 0x4D42) {
 
@@ -77,12 +77,12 @@ void draw_image(TFT *screen, char *filename, uint8_t x, uint8_t y) {
 
           if(image_file.position() != pos) {
             image_file.seek(pos);
-            buffidx = sizeof(sdbuffer);
+            buffidx = BUFFER_SIZE;
           }
 
           for (uint8_t col = 0; col < w; col++) {
-            if (buffidx >= sizeof(sdbuffer)) {
-              image_file.read(sdbuffer, sizeof(sdbuffer));
+            if (buffidx >= BUFFER_SIZE) {
+              image_file.read(sdbuffer, BUFFER_SIZE);
               buffidx = 0;
             }
 

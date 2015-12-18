@@ -3,8 +3,6 @@
 
 #include "Scene.h"
 
-#define HEADER_FILE "instruct/header.bmp"
-
 class InstructionScene : public Scene {
   public:
     InstructionScene(TFT *screen) : Scene(screen) {}

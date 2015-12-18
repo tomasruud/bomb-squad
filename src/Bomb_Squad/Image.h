@@ -5,7 +5,7 @@
 
 #include "Arduino.h"
 
-#define BUFFPIXEL 1
+#define BUFFER_SIZE 9
 
 void draw_image(TFT *screen, char *filename, uint8_t x, uint8_t y);
 
