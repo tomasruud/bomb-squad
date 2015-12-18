@@ -31,8 +31,7 @@ void DifficultyScene::HandleFrame(unsigned char frame) {
 
 SceneID DifficultyScene::HandleInput() {
 
-  JoystickDirection one_direction =
-      get_joystick_vertical_direction(analogRead(JOY_Y_PIN));
+  JoystickDirection one_direction = get_joystick_vertical_direction();
 
   if(one_direction != _last_direction) {
     if(one_direction == JS_Up) {

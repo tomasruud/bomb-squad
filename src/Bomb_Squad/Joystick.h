@@ -1,8 +1,6 @@
 #ifndef JOYSTICK_H_
 #define JOYSTICK_H_
 
-#include "Arduino.h"
-
 #define JS_THRESHOLD 32
 
 typedef enum JoystickDirection {
@@ -13,6 +11,6 @@ typedef enum JoystickDirection {
   JS_Right
 };
 
-JoystickDirection get_joystick_vertical_direction(uint16_t y);
+JoystickDirection get_joystick_vertical_direction();
 
 #endif

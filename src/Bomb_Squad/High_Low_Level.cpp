@@ -1,17 +1,14 @@
 #include "High_Low_Level.h"
 #include "Display.h"
 #include "Colors.h"
-#include "Joystick.h"
 
 #define HIGH 10
 #define MAX_ROUNDS 4
 
 void HighLowLevel::Bootstrap() {
 
-  _data.round = 0;
+  _data.round = 1;
   _data.last_round = 0;
-
-  _data.finished = 0;
 
   _data.next_number = random(0, HIGH);
   _data.number = random(0, HIGH);
@@ -23,27 +20,14 @@ void HighLowLevel::Bootstrap() {
 
 void HighLowLevel::HandleFrame(unsigned char frame) {
 
-  if(_data.round > MAX_ROUNDS) {
-    _data.finished = 1;
-
-    const char text[] = "PULL OUT THE ORANGE WIRE!";
-
-    _screen->fillScreen(COLOR_BG);
-    _screen->setTextColor(COLOR_TEXT);
-    _screen->setTextSize(FONT_SIZE_LARGE);
-    _screen->setCursor(TFT_W2 - (strlen(text) * FONT_SIZE_LARGE / 2),
-                      TFT_H2 - (FONT_SIZE_LARGE * FONT_HEIGHT) / 2);
-
-    _screen->print(text);
-    return;
-  }
-
+  // Draw number if needed
   if(_data.last_number != _data.number) {
 
     DrawNumber();
     _data.last_number = _data.number;
   }
 
+  // Draw round if needed
   if(_data.last_round != _data.round) {
 
     DrawRound();
@@ -62,16 +46,45 @@ void HighLowLevel::DrawNumber() {
 
 void HighLowLevel::DrawRound() {
 
-  _screen->drawChar(10, 10, '0' + _data.last_round,
+  _screen->drawChar(50, 10, '0' + _data.last_round,
                     COLOR_BG, COLOR_BG, FONT_SIZE_HUGE);
 
   _screen->drawChar(50, 10, '0' + _data.round,
                     COLOR_TEXT, COLOR_BG, FONT_SIZE_HUGE);
 }
 
+bool HighLowLevel::CheckInput(bool higher) {
+
+  if(( higher && _data.next_number >= _data.number) ||
+     (!higher && _data.next_number <= _data.number)) {
+
+    _data.number = _data.next_number;
+    _data.next_number = random(0, HIGH);
+
+    return true;
+  } else {
+    return false;
+  }
+}
+
 LevelAction HighLowLevel::HandleLevelInput() {
 
+  JoystickDirection one_direction = get_joystick_vertical_direction();
 
+  if(one_direction != _last_direction) {
+    if(one_direction == JS_Up || one_direction == JS_Down)
+      if(CheckInput(one_direction == JS_Up) == false) {
+
+        return GAME_OVER;
+      } else {
+        _data.round++;
+
+        if(_data.round > MAX_ROUNDS)
+          return WIRE;
+      }
+
+    _last_direction = one_direction;
+  }
 
   return STAY;
 }

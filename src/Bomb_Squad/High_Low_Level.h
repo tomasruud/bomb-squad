@@ -2,6 +2,7 @@
 #define HIGH_LOW_LEVEL_H_
 
 #include "Level.h"
+#include "Joystick.h"
 
 class HighLowLevel : public Level {
   public:
@@ -14,6 +15,9 @@ class HighLowLevel : public Level {
   private:
     void DrawNumber();
     void DrawRound();
+    bool CheckInput(bool higher);
+
+    JoystickDirection _last_direction = JS_None;
 
     struct {
       uint32_t last_number:4;
@@ -21,7 +25,6 @@ class HighLowLevel : public Level {
       uint32_t number:4;
       uint32_t round:4;
       uint32_t last_round:4;
-      uint32_t finished:1;
     } _data;
 };
 

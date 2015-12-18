@@ -36,7 +36,17 @@ void setup() {
 
   DEBUG_START(9600);
 
-  randomSeed(analogRead(5));
+  uint32_t seed = abs((analogRead(A0) + 1) *
+                      (analogRead(A1) + 1) *
+                      (analogRead(A2) + 1) *
+                      (analogRead(A3) + 1) *
+                      (analogRead(A4) + 1) *
+                      (analogRead(A5) + 1) *
+                      (analogRead(0) + 1) *
+                      (analogRead(1) + 1));
+  DEBUG(seed);
+
+  randomSeed(seed);
 
   setup_pins();
   setup_screen();
