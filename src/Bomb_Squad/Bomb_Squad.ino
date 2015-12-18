@@ -17,7 +17,7 @@
 #include "Transition.h"
 
 #define INPUT_READ_RATE 10
-#define BOOT_SCENE SceneID_Instructions
+#define BOOT_SCENE SceneID_Splash
 
 TFT screen = TFT(TFT_CS, TFT_DC, TFT_RST);
 
@@ -89,13 +89,10 @@ void handle_input() {
 
     // Change scene only if neccesarry
     if(next != NULL && next != current_scene_id) {
-      DEBUG("Changing SCENE");
-
       delete current_scene;
       current_scene = NULL;
 
       current_scene_id = next;
-      DEBUG(next);
 
       Transition::ThatsAllFolks(&screen);
 
