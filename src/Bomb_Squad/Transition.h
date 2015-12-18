@@ -7,6 +7,7 @@ class Transition {
   public:
     static void Interlace(TFT *_screen);
     static void ThatsAllFolks(TFT *_screen);
+    static void Explode(TFT *_screen);
 };
 
 #endif

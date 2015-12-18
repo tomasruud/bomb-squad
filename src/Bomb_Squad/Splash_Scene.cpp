@@ -43,7 +43,7 @@ void SplashScene::AnimateText(unsigned char frame) {
 
 void SplashScene::AnimateParticles(unsigned char frame) {
 
-  if(frame % 4 == 0) {
+  if(frame % (FPS / 5) == 0) {
     for(unsigned char i = 0; i < PARTICLE_COUNT; i++) {
       _screen->drawPixel(FLAME_X + PARTICLE_INDEX(_x, i),
                          FLAME_Y + PARTICLE_INDEX(_y, i), COLOR_BG);

@@ -65,7 +65,7 @@ void WireLevel::Draw() {
     break;
   }
 
-  _screen->fillRect(0, 0, TFT_W, 95, COLOR_BG);
+  _screen->fillRect(0, 0, TFT_W, 88, COLOR_BG);
   _screen->setTextSize(FONT_SIZE_LARGE);
 
   _screen->setTextColor(COLOR_TEXT);

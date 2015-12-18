@@ -15,7 +15,7 @@
 #define FONT_SIZE_LARGE 2
 #define FONT_SIZE_HUGE 3
 
-#define FPS 25
+#define FPS 10
 #define FRAME_DURATION 1000 / FPS
 
 #endif

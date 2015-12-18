@@ -12,16 +12,16 @@
 #include "High_Low_Level.h"
 #include "Wire_Level.h"
 
-#define CLOCK_X 120
-#define CLOCK_Y 100
+#define CLOCK_X 124
+#define CLOCK_Y 109
 
 void GameScene::Bootstrap() {
 
-  LevelID _game_levels[LEVELS] = {
+  LevelID game_levels[LEVELS] = {
     LevelID_HighLow
   };
 
-  LevelID _wire_levels[4] = {
+  LevelID wire_levels[4] = {
     LevelID_WireBlue,
     LevelID_WireOrange,
     LevelID_WireGreen,
@@ -32,26 +32,26 @@ void GameScene::Bootstrap() {
   for(uint8_t i = 0; i < LEVELS - 1; i++) {
     uint8_t j = random(1, LEVELS - i);
 
-    LevelID temp = _game_levels[0];
-    _game_levels[0] = _game_levels[j];
-    _game_levels[j] = temp;
+    LevelID temp = game_levels[0];
+    game_levels[0] = game_levels[j];
+    game_levels[j] = temp;
   }
 
   // Shuffle wire order
   for(uint8_t i = 0; i < WIRE_LEVELS - 1; i++) {
     uint8_t j = random(1, WIRE_LEVELS - i);
 
-    LevelID temp = _wire_levels[0];
-    _wire_levels[0] = _wire_levels[j];
-    _wire_levels[j] = temp;
+    LevelID temp = wire_levels[0];
+    wire_levels[0] = wire_levels[j];
+    wire_levels[j] = temp;
   }
 
   // Splice levels and wires
   for(uint8_t i = 0, wire = 0, game = 0; i < _level_count; i++) {
     if(i % 2 == 0)
-      _levels[i] = _game_levels[game++];
+      _levels[i] = game_levels[game++];
     else
-      _levels[i] = _wire_levels[wire++];
+      _levels[i] = wire_levels[wire++];
   }
 
   _time = 320;
@@ -91,7 +91,7 @@ void GameScene::Bootstrap() {
 
   delay(500);
 
-  draw_image(_screen, "0.bmp", CLOCK_X - 5, CLOCK_Y - 3);
+  draw_image(_screen, "0.bmp", CLOCK_X - 9, CLOCK_Y - 21);
 
   LoadLevel();
 }
