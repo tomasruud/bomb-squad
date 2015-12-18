@@ -4,14 +4,9 @@
 #include <TFT.h>
 
 class Transition {
-  private:
-    TFT *_screen;
-
   public:
-    Transition(TFT *screen) { _screen = screen; }
-
-    void Interlace();
-    void ThatsAllFolks();
+    static void Interlace(TFT *_screen);
+    static void ThatsAllFolks(TFT *_screen);
 };
 
 #endif

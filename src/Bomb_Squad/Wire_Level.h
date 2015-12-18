@@ -7,8 +7,10 @@
 class WireLevel : public Level {
 
   public:
-    WireLevel(TFT *screen, WireColor color) : Level(screen) {
+    WireLevel(TFT *screen, WireColor color, WireArray *removed) : Level(screen) {
+
       _color = color;
+      _removed = removed;
     }
 
     virtual void Bootstrap();
@@ -17,7 +19,9 @@ class WireLevel : public Level {
 
   private:
     void Draw();
+    bool AlreadyDefused(WireColor color);
 
+    WireArray *_removed;
     WireColor _color;
 };
 

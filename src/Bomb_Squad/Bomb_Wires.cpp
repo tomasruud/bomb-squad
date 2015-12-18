@@ -1,6 +1,6 @@
 #include "Bomb_Wires.h"
 
-bool wire_removed(WireColor color) {
+bool BombWire::IsRemoved(WireColor color) {
 
   switch(color) {
     case W_BLUE:

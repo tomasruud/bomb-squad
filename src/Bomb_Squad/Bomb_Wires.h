@@ -4,7 +4,7 @@
 #include "Pins.h"
 
 #define WIRES 4
-#define EACH_WIRE int wire = W_BLUE; wire <= W_YELLOW; wire++
+#define EACH_WIRE uint8_t wire = W_BLUE; wire <= W_YELLOW; wire++
 
 typedef enum WireColor {
   W_BLUE,
@@ -13,6 +13,14 @@ typedef enum WireColor {
   W_YELLOW
 };
 
-bool wire_removed(WireColor color);
+typedef struct WireArray {
+  WireColor wires[WIRES];
+  uint8_t count = 0;
+};
+
+class BombWire {
+  public:
+    static bool IsRemoved(WireColor color);
+};
 
 #endif

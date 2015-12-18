@@ -3,7 +3,7 @@
 #include "Colors.h"
 
 #define HIGH 10
-#define MAX_ROUNDS 4
+#define MAX_ROUNDS 1
 
 void HighLowLevel::Bootstrap() {
 
@@ -80,7 +80,7 @@ LevelAction HighLowLevel::HandleLevelInput() {
         _data.round++;
 
         if(_data.round > MAX_ROUNDS)
-          return WIRE;
+          return NEXT;
       }
 
     _last_direction = one_direction;

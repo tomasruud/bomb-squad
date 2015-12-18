@@ -5,7 +5,6 @@
 
 typedef enum LevelAction {
   STAY,
-  WIRE,
   NEXT,
   GAME_OVER
 };

@@ -2,6 +2,7 @@
 
 #include "Display.h"
 #include "Colors.h"
+#include "Debugger.h"
 
 void WireLevel::Bootstrap() {
 
@@ -10,13 +11,35 @@ void WireLevel::Bootstrap() {
 
 void WireLevel::HandleFrame(unsigned char frame) {
 
-  
+
 }
 
 LevelAction WireLevel::HandleLevelInput() {
 
+  for(EACH_WIRE) {
+    WireColor the_wire = (WireColor) wire;
+
+    if(AlreadyDefused(the_wire))
+      continue;
+
+    if(_color != the_wire && BombWire::IsRemoved(the_wire))
+      return GAME_OVER;
+
+    else if(_color == the_wire && BombWire::IsRemoved(the_wire))
+      return NEXT;
+  }
+
   return STAY;
 };
+
+bool WireLevel::AlreadyDefused(WireColor color) {
+
+  for(uint8_t i = 0; i < _removed->count; i++)
+    if(_removed->wires[i] == color)
+      return true;
+
+  return false;
+}
 
 void WireLevel::Draw() {
 

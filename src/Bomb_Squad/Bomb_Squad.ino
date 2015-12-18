@@ -25,8 +25,6 @@ ThreadController thread_pool;
 Thread gui_thread;
 Thread input_thread;
 
-Transition transition = Transition(&screen);
-
 SceneID current_scene_id;
 Scene *current_scene;
 
@@ -44,7 +42,6 @@ void setup() {
                       (analogRead(A5) + 1) *
                       (analogRead(0) + 1) *
                       (analogRead(1) + 1));
-  DEBUG(seed);
 
   randomSeed(seed);
 
@@ -78,7 +75,7 @@ void load_scene() {
   if(current_scene == NULL) {
     screen.setTextColor(COLOR_TEXT);
     screen.setCursor(4, 4);
-    screen.println("No scene");
+    screen.println(F("No scene"));
     return;
   }
 
@@ -92,12 +89,15 @@ void handle_input() {
 
     // Change scene only if neccesarry
     if(next != NULL && next != current_scene_id) {
+      DEBUG("Changing SCENE");
+
       delete current_scene;
       current_scene = NULL;
 
       current_scene_id = next;
+      DEBUG(next);
 
-      transition.ThatsAllFolks();
+      Transition::ThatsAllFolks(&screen);
 
       load_scene();
     }
@@ -128,7 +128,7 @@ void setup_screen() {
 bool setup_sd() {
 
   if(!SD.begin(SD_CS)) {
-    screen.println("SD");
+    screen.println(F("SD missing"));
     return false;
   }
 

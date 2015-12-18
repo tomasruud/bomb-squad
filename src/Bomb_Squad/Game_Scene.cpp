@@ -5,32 +5,53 @@
 #include "Colors.h"
 #include "Pins.h"
 #include "Image.h"
+#include "Transition.h"
+
+#include "Debugger.h"
 
 #include "High_Low_Level.h"
 #include "Wire_Level.h"
-#include "Bomb_Wires.h"
 
 #define CLOCK_X 120
 #define CLOCK_Y 100
 
 void GameScene::Bootstrap() {
 
-  // Shuffle level order
-  for(uint8_t i = 0; i < _count.level - 1; i++) {
-    uint8_t j = random(1, _count.level - i);
+  LevelID _game_levels[LEVELS] = {
+    LevelID_HighLow
+  };
 
-    LevelID temp = _levels[0];
-    _levels[0] = _levels[j];
-    _levels[j] = temp;
+  LevelID _wire_levels[4] = {
+    LevelID_WireBlue,
+    LevelID_WireOrange,
+    LevelID_WireGreen,
+    LevelID_WireYellow
+  };
+
+  // Shuffle level order
+  for(uint8_t i = 0; i < LEVELS - 1; i++) {
+    uint8_t j = random(1, LEVELS - i);
+
+    LevelID temp = _game_levels[0];
+    _game_levels[0] = _game_levels[j];
+    _game_levels[j] = temp;
   }
 
   // Shuffle wire order
-  for(uint8_t i = 0; i < _count.wire_level - 1; i++) {
-    uint8_t j = random(1, _count.wire_level - i);
+  for(uint8_t i = 0; i < WIRE_LEVELS - 1; i++) {
+    uint8_t j = random(1, WIRE_LEVELS - i);
 
     LevelID temp = _wire_levels[0];
     _wire_levels[0] = _wire_levels[j];
     _wire_levels[j] = temp;
+  }
+
+  // Splice levels and wires
+  for(uint8_t i = 0, wire = 0, game = 0; i < _level_count; i++) {
+    if(i % 2 == 0)
+      _levels[i] = _game_levels[game++];
+    else
+      _levels[i] = _wire_levels[wire++];
   }
 
   _time = 320;
@@ -42,12 +63,12 @@ void GameScene::Bootstrap() {
     wires_are_present = true;
 
     for(EACH_WIRE) {
-      if(wire_removed((WireColor) wire)) {
+      if(BombWire::IsRemoved((WireColor) wire)) {
         _screen->setCursor(20, 20);
         _screen->setTextSize(FONT_SIZE_SMALL);
         _screen->setTextColor(COLOR_TEXT);
 
-        _screen->println("Wires are missing!");
+        _screen->println(F("Wires are missing!"));
 
         wires_are_present = false;
       }
@@ -56,7 +77,19 @@ void GameScene::Bootstrap() {
 
   _screen->fillScreen(COLOR_BG);
 
-  delay(500); // Just for prettyness
+  delay(500);
+
+  _screen->setCursor(TFT_W2 - (4 * FONT_WIDTH), TFT_H2 - (FONT_HEIGHT / 2));
+  _screen->setTextSize(FONT_SIZE_SMALL);
+  _screen->setTextColor(COLOR_TEXT);
+
+  _screen->println(F("Get ready"));
+
+  delay(1500);
+
+  _screen->fillScreen(COLOR_BG);
+
+  delay(500);
 
   draw_image(_screen, "0.bmp", CLOCK_X - 5, CLOCK_Y - 3);
 
@@ -65,25 +98,7 @@ void GameScene::Bootstrap() {
 
 void GameScene::LoadLevel() {
 
-  if(_indexes.level >= _count.level) {
-    _done.level = 1;
-    return;
-  }
-
-  _current_level = BuildLevel(_levels[_indexes.level++]);
-
-  if(_current_level != NULL)
-    _current_level->Bootstrap();
-}
-
-void GameScene::LoadWireLevel() {
-
-  if(_indexes.wire_level >= _count.wire_level) {
-    _done.wire = 1;
-    return;
-  }
-
-  _current_level = BuildLevel(_wire_levels[_indexes.wire_level++]);
+  _current_level = BuildLevel(_levels[_level_index]);
 
   if(_current_level != NULL)
     _current_level->Bootstrap();
@@ -96,16 +111,16 @@ Level *GameScene::BuildLevel(LevelID id) {
       return new HighLowLevel(_screen);
 
     case LevelID_WireBlue:
-      return new WireLevel(_screen, W_BLUE);
+      return new WireLevel(_screen, W_BLUE, &_defused_wires);
 
     case LevelID_WireOrange:
-      return new WireLevel(_screen, W_ORANGE);
+      return new WireLevel(_screen, W_ORANGE, &_defused_wires);
 
     case LevelID_WireGreen:
-      return new WireLevel(_screen, W_GREEN);
+      return new WireLevel(_screen, W_GREEN, &_defused_wires);
 
     case LevelID_WireYellow:
-      return new WireLevel(_screen, W_YELLOW);
+      return new WireLevel(_screen, W_YELLOW, &_defused_wires);
   }
 
   return NULL;
@@ -189,9 +204,8 @@ void GameScene::WriteTime() {
 
 SceneID GameScene::HandleInput() {
 
-  // TODO
-  if(_done.wire && _done.level)
-    return SceneID_Splash;
+  if(_current_level == NULL)
+    return SceneID_Instructions;
 
   LevelAction action = _current_level->HandleLevelInput();
 
@@ -199,16 +213,19 @@ SceneID GameScene::HandleInput() {
 
     case NEXT:
       delete _current_level;
+      _current_level = NULL;
+
+      _level_index++;
+
+      // TODO winning
+      if(_level_index >= _level_count)
+        return SceneID_Splash;
+
       LoadLevel();
     break;
 
-    case WIRE:
-      delete _current_level;
-      LoadWireLevel();
-    break;
-
     case GAME_OVER:
-      // TODO
+      // TODO losing
       return SceneID_Difficulty;
     break;
   }

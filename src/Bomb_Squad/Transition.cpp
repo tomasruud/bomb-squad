@@ -5,7 +5,7 @@
 #define STEP_SIZE 4
 #define TRANSITION_MS 500
 
-void Transition::Interlace() {
+void Transition::Interlace(TFT *_screen) {
 
   for(unsigned char loop = 0; loop < 2; loop++)
     for(unsigned char i = loop * STEP_SIZE; i < TFT_H; i++) {
@@ -19,7 +19,7 @@ void Transition::Interlace() {
     }
 }
 
-void Transition::ThatsAllFolks() {
+void Transition::ThatsAllFolks(TFT *_screen) {
 
   for(unsigned char i = 0; i <= TFT_H2; i++) {
 

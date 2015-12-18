@@ -5,6 +5,10 @@
 #include "Scene.h"
 #include "Level.h"
 #include "Level_ID.h"
+#include "Bomb_Wires.h"
+
+#define LEVELS 1
+#define WIRE_LEVELS 1
 
 class GameScene : public Scene {
   public:
@@ -16,18 +20,12 @@ class GameScene : public Scene {
 
   private:
     void LoadLevel();
-    void LoadWireLevel();
 
     Level *BuildLevel(LevelID id);
 
     void WriteTime();
 
     uint32_t _time;
-
-    struct {
-      uint8_t wire:1;
-      uint8_t level:1;
-    } _done = {0, 0};
 
     struct {
       uint16_t did_draw:1;
@@ -37,28 +35,14 @@ class GameScene : public Scene {
       uint16_t second1:4;
     } _printed_time;
 
-    struct {
-      uint8_t level:4;
-      uint8_t wire_level:4;
-    } _indexes = {0, 0};
+    uint8_t _level_index = 0;
+    const uint8_t _level_count = WIRE_LEVELS + LEVELS;
 
     Level *_current_level;
 
-    LevelID _levels[1] = {
-      LevelID_HighLow
-    };
+    LevelID _levels[WIRE_LEVELS + LEVELS];
 
-    LevelID _wire_levels[4] = {
-      LevelID_WireBlue,
-      LevelID_WireOrange,
-      LevelID_WireGreen,
-      LevelID_WireYellow
-    };
-
-    const struct {
-      uint8_t level:4;
-      uint8_t wire_level:4;
-    } _count = { .level = 1, .wire_level = 4 };
+    WireArray _defused_wires;
 };
 
 #endif
