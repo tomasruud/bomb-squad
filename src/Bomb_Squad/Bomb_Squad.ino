@@ -11,14 +11,13 @@
 #include "Globals.h"
 #include "Image.h"
 #include "Pins.h"
-#include "Pitches.h"
 #include "Scene.h"
 #include "Scene_Factory.h"
 #include "Scene_ID.h"
 #include "Transition.h"
 
 #define INPUT_READ_RATE 10
-#define BOOT_SCENE SceneID_Splash
+#define BOOT_SCENE SceneID_Instructions
 
 TFT screen = TFT(TFT_CS, TFT_DC, TFT_RST);
 
@@ -31,7 +30,6 @@ Transition transition = Transition(&screen);
 SceneID current_scene_id;
 Scene *current_scene;
 
-unsigned char g_level = 0;
 unsigned char g_difficulty = 0;
 
 void setup() {
@@ -120,7 +118,7 @@ void setup_screen() {
 bool setup_sd() {
 
   if(!SD.begin(SD_CS)) {
-    screen.println("No SD-card");
+    screen.println("SD");
     return false;
   }
 

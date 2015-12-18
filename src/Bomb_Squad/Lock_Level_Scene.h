@@ -1,17 +1,15 @@
-#ifndef LOCK_LEVEL_SCENE
-#define LOCK_LEVEL_SCENE
+#ifndef LOCK_LEVEL_H_
+#define LOCK_LEVEL_H_
 
-#include "Scene.h"
+#include "Level.h"
 
-class LockLevelScene : public Scene {
+class LockLevel: public Level {
   public:
-    LockLevelScene(TFT *screen) : Scene(screen) {}
+    LockLevelScene(TFT *screen) : Level(screen) {}
 
     virtual void Bootstrap();
     virtual void HandleFrame(unsigned char frame);
-    virtual SceneID HandleInput();
-
-  private:
+    virtual LevelAction HandleInput();
 };
 
 #endif

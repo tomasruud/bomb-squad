@@ -7,5 +7,7 @@
 #define COLOR_TEXT RGB(255, 255, 255)
 
 #define COLOR_GREEN RGB(129, 255, 111)
+#define COLOR_RED RGB(248, 18, 18)
+#define COLOR_GRAY RGB(24, 24, 24)
 
 #endif
