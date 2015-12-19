@@ -7,8 +7,8 @@
 #include "Level_ID.h"
 #include "Bomb_Wires.h"
 
-#define LEVELS 1
-#define WIRE_LEVELS 1
+#define LEVELS 2
+#define WIRE_LEVELS 2
 
 class GameScene : public Scene {
   public:
@@ -33,7 +33,7 @@ class GameScene : public Scene {
     void PrepareLevels();
     bool MissingWires();
 
-    uint32_t _time;
+    int16_t _time;
 
     struct {
       uint16_t did_draw:1;

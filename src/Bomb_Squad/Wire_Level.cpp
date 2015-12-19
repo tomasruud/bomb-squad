@@ -25,8 +25,10 @@ LevelAction WireLevel::HandleLevelInput() {
     if(_color != the_wire && BombWire::IsRemoved(the_wire))
       return GAME_OVER;
 
-    else if(_color == the_wire && BombWire::IsRemoved(the_wire))
+    else if(_color == the_wire && BombWire::IsRemoved(the_wire)) {
+      _removed->wires[_removed->count++] = _color; 
       return NEXT;
+    }
   }
 
   return STAY;
@@ -65,7 +67,10 @@ void WireLevel::Draw() {
     break;
   }
 
-  _screen->fillRect(0, 0, TFT_W, 88, COLOR_BG);
+  _screen->fillScreen(COLOR_BG);
+
+  _container->NotifyRedrawTimer();
+
   _screen->setTextSize(FONT_SIZE_LARGE);
 
   _screen->setTextColor(COLOR_TEXT);

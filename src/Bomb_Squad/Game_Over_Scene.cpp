@@ -3,7 +3,6 @@
 #include "Pins.h"
 
 void GameOverScene::Bootstrap() {
-  _screen->println(_win ? F("You win!") : F("Game over!"));
 }
 
 void GameOverScene::HandleFrame(unsigned char frame) {

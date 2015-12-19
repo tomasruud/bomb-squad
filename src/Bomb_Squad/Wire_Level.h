@@ -3,14 +3,15 @@
 
 #include "Level.h"
 #include "Bomb_Wires.h"
+#include "Game_Scene.h";
 
 class WireLevel : public Level {
 
   public:
-    WireLevel(TFT *screen, WireColor color, WireArray *removed) : Level(screen) {
-
+    WireLevel(TFT *screen, WireColor color, WireArray *removed, GameScene *container) : Level(screen) {
       _color = color;
       _removed = removed;
+      _container = container;
     }
 
     virtual void Bootstrap();
@@ -23,6 +24,7 @@ class WireLevel : public Level {
 
     WireArray *_removed;
     WireColor _color;
+    GameScene *_container;
 };
 
 #endif

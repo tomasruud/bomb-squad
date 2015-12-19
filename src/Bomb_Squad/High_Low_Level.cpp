@@ -1,9 +1,10 @@
 #include "High_Low_Level.h"
 #include "Display.h"
 #include "Colors.h"
+#include "Globals.h"
 
 #define HIGH 10
-#define MAX_ROUNDS 1
+#define MAX_ROUNDS (4 + g_difficulty)
 
 void HighLowLevel::Bootstrap() {
 

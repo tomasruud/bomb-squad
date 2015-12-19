@@ -5,7 +5,7 @@
 #include "Game_Scene.h"
 
 #define SAMPLES 10
-#define WALLS 2
+#define WALLS 6
 
 // X, Y and Length should be multiplied by 8
 struct Wall {
@@ -39,7 +39,11 @@ class MarbleMazeLevel : public Level {
 
     Wall walls[WALLS] = {
       { .horizontal = 0, .x = 2, .y = 2, .length = 8 },
-      { .horizontal = 1, .x = 2, .y = 10, .length = 8 }
+      { .horizontal = 1, .x = 2, .y = 10, .length = 8 },
+      { .horizontal = 0, .x = 10, .y = 5, .length = 14 },
+      { .horizontal = 0, .x = 10, .y = 0, .length = 2 },
+      { .horizontal = 1, .x = 10, .y = 7, .length = 10 },
+      { .horizontal = 0, .x = 6, .y = 0, .length = 6 }
     };
 
     uint16_t GetAverageX() {

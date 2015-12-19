@@ -4,18 +4,10 @@
 
 void InstructionScene::Bootstrap() {
 
-  _flags.has_drawn = 0x0;
-
   draw_image(_screen, "2/0.bmp", 10, 10);
 }
 
-void InstructionScene::HandleFrame(unsigned char frame) {
-
-  if(!_flags.has_drawn) {
-    _flags.has_drawn = 0x1;
-
-  }
-}
+void InstructionScene::HandleFrame(unsigned char frame) {}
 
 SceneID InstructionScene::HandleInput() {
 

@@ -4,6 +4,7 @@
 #include "Colors.h"
 #include "Debugger.h"
 #include "Display.h"
+#include "Globals.h"
 #include "Pins.h"
 #include "Transition.h"
 
@@ -19,7 +20,7 @@
 #define MAX_X TFT_W - BALL_SIZE
 #define MAX_Y TFT_H - BALL_SIZE
 
-#define WALL_THIKNESS 8
+#define WALL_THIKNESS (3 + g_difficulty * 3)
 #define BACKGROUND RGB(243, 156, 18)
 
 void MarbleMazeLevel::Bootstrap() {
@@ -36,6 +37,10 @@ void MarbleMazeLevel::Bootstrap() {
   Transition::Expand(_screen, BACKGROUND);
 
   DrawWalls();
+
+  _screen->fillRect(TFT_W - 20, 0, 20, 20, COLOR_GREEN);
+
+  _screen->fillCircle(TFT_W - 1, TFT_H - 1, 60, COLOR_BG);
   _container->NotifyRedrawTimer();
 
   for(uint8_t i = 0; i < SAMPLES; i++)
@@ -115,6 +120,9 @@ bool MarbleMazeLevel::CheckCollision() {
         return true;
   }
 
+  if(_ball_position_x > TFT_W - 20 && _ball_position_y < 20)
+    _game.won = 1;
+
   return false;
 }
 
@@ -147,23 +155,25 @@ void MarbleMazeLevel::HandleFrame(unsigned char frame) {
 
     _last_ball_position_x = _ball_position_x;
     _last_ball_position_y = _ball_position_y;
-
-    // Check collision after drawing
-    if(CheckCollision()) {
-      _game.over = 1;
-      _screen->drawLine(_ball_position_x - 2, _ball_position_y - 2,
-                       _ball_position_x + BALL_SIZE + 2, _ball_position_y + BALL_SIZE + 2, COLOR_RED);
-
-      _screen->drawLine(_ball_position_x - 2, _ball_position_y + BALL_SIZE + 2,
-                       _ball_position_x + BALL_SIZE + 2, _ball_position_y - 2, COLOR_RED);
-    }
 }
 
 LevelAction MarbleMazeLevel::HandleLevelInput() {
 
+  // Check this before collision detection to make sure the last frame is drawn
   if(_game.over) {
     delay(500);
     return GAME_OVER;
+  }
+
+  // Check collision, then redraw and then exit
+  if(CheckCollision()) {
+    _game.over = 1;
+
+    _screen->drawLine(_ball_position_x - 2, _ball_position_y - 2,
+                     _ball_position_x + BALL_SIZE + 2, _ball_position_y + BALL_SIZE + 2, COLOR_RED);
+
+    _screen->drawLine(_ball_position_x - 2, _ball_position_y + BALL_SIZE + 2,
+                     _ball_position_x + BALL_SIZE + 2, _ball_position_y - 2, COLOR_RED);
   }
 
   if(_game.won) {

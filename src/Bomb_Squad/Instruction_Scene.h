@@ -10,11 +10,6 @@ class InstructionScene : public Scene {
     virtual void Bootstrap();
     virtual void HandleFrame(unsigned char frame);
     virtual SceneID HandleInput();
-
-  private:
-    struct {
-      unsigned char has_drawn:1;
-    } _flags;
 };
 
 #endif

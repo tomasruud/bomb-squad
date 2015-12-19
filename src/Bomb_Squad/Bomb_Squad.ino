@@ -17,7 +17,7 @@
 #include "Transition.h"
 
 #define INPUT_READ_RATE 10
-#define BOOT_SCENE SceneID_Game
+#define BOOT_SCENE SceneID_Splash
 
 TFT screen = TFT(TFT_CS, TFT_DC, TFT_RST);
 
@@ -75,7 +75,6 @@ void load_scene() {
   if(current_scene == NULL) {
     screen.setTextColor(COLOR_TEXT);
     screen.setCursor(4, 4);
-    screen.println(F("No scene"));
     return;
   }
 
@@ -125,7 +124,7 @@ void setup_screen() {
 bool setup_sd() {
 
   if(!SD.begin(SD_CS)) {
-    screen.println(F("SD missing"));
+    screen.println("SD");
     return false;
   }
 
@@ -140,6 +139,11 @@ void setup_pins() {
   pinMode(JOY_X_PIN, INPUT);
   pinMode(JOY_Y_PIN, INPUT);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+  pinMode(BLUE_PIN, INPUT);
+  pinMode(ORANGE_PIN, INPUT);
+  pinMode(GREEN_PIN, INPUT);
+  pinMode(YELLOW_PIN, INPUT);
 
   pinMode(AUDIO_PIN, OUTPUT);
 

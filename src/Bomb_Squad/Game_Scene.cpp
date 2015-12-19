@@ -8,6 +8,7 @@
 #include "Transition.h"
 
 #include "Debugger.h"
+#include "Globals.h"
 
 #include "High_Low_Level.h"
 #include "Marble_Maze_Level.h"
@@ -84,7 +85,7 @@ void GameScene::ShowIntro() {
   _screen->setTextSize(FONT_SIZE_SMALL);
   _screen->setTextColor(COLOR_TEXT);
 
-  _screen->println(F("Get ready"));
+  _screen->println("Get ready");
 
   delay(1500);
 
@@ -98,7 +99,7 @@ void GameScene::Bootstrap() {
   PrepareLevels();
   while(MissingWires());
 
-  _time = 320;
+  _time = 120 - (g_difficulty * 20);
   _printed_time.did_draw = 0;
 
   ShowIntro();
@@ -127,16 +128,16 @@ Level *GameScene::BuildLevel(LevelID id) {
     }
 
     case LevelID_WireBlue:
-      return new WireLevel(_screen, W_BLUE, &_defused_wires);
+      return new WireLevel(_screen, W_BLUE, &_defused_wires, this);
 
     case LevelID_WireOrange:
-      return new WireLevel(_screen, W_ORANGE, &_defused_wires);
+      return new WireLevel(_screen, W_ORANGE, &_defused_wires, this);
 
     case LevelID_WireGreen:
-      return new WireLevel(_screen, W_GREEN, &_defused_wires);
+      return new WireLevel(_screen, W_GREEN, &_defused_wires, this);
 
     case LevelID_WireYellow:
-      return new WireLevel(_screen, W_YELLOW, &_defused_wires);
+      return new WireLevel(_screen, W_YELLOW, &_defused_wires, this);
   }
 
   return NULL;
@@ -225,6 +226,9 @@ SceneID GameScene::HandleInput() {
     return SceneID_Instructions;
 
   LevelAction action = _current_level->HandleLevelInput();
+
+  if(_time < 0)
+    action = GAME_OVER;
 
   switch(action) {
 
