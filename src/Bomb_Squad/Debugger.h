@@ -1,7 +1,7 @@
 #ifndef DEBUGGER_H_
 #define DEBUGGER_H_
 
-#define USE_DEBUG
+//#define USE_DEBUG
 
 #ifdef USE_DEBUG
 #define DEBUG_START(baud) Serial.begin((baud))

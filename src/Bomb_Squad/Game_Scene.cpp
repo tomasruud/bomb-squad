@@ -10,14 +10,16 @@
 #include "Debugger.h"
 
 #include "High_Low_Level.h"
+#include "Marble_Maze_Level.h"
 #include "Wire_Level.h"
 
 #define CLOCK_X 124
 #define CLOCK_Y 109
 
-void GameScene::Bootstrap() {
+void GameScene::PrepareLevels() {
 
-  LevelID game_levels[LEVELS] = {
+  LevelID game_levels[2] = {
+    LevelID_MarbleMaze,
     LevelID_HighLow
   };
 
@@ -53,27 +55,26 @@ void GameScene::Bootstrap() {
     else
       _levels[i] = wire_levels[wire++];
   }
+}
 
-  _time = 320;
-  _printed_time.did_draw = 0;
+bool GameScene::MissingWires() {
 
-  bool wires_are_present = false;
+  for(EACH_WIRE) {
+    if(BombWire::IsRemoved((WireColor) wire)) {
+      _screen->setCursor(20, 20);
+      _screen->setTextSize(FONT_SIZE_SMALL);
+      _screen->setTextColor(COLOR_TEXT);
 
-  while(wires_are_present == false) {
-    wires_are_present = true;
+      _screen->println(F("Wires are missing!"));
 
-    for(EACH_WIRE) {
-      if(BombWire::IsRemoved((WireColor) wire)) {
-        _screen->setCursor(20, 20);
-        _screen->setTextSize(FONT_SIZE_SMALL);
-        _screen->setTextColor(COLOR_TEXT);
-
-        _screen->println(F("Wires are missing!"));
-
-        wires_are_present = false;
-      }
+      return true;
     }
   }
+
+  return false;
+}
+
+void GameScene::ShowIntro() {
 
   _screen->fillScreen(COLOR_BG);
 
@@ -90,8 +91,17 @@ void GameScene::Bootstrap() {
   _screen->fillScreen(COLOR_BG);
 
   delay(500);
+}
 
-  draw_image(_screen, "0.bmp", CLOCK_X - 9, CLOCK_Y - 21);
+void GameScene::Bootstrap() {
+
+  PrepareLevels();
+  while(MissingWires());
+
+  _time = 320;
+  _printed_time.did_draw = 0;
+
+  ShowIntro();
 
   LoadLevel();
 }
@@ -109,6 +119,12 @@ Level *GameScene::BuildLevel(LevelID id) {
   switch(id) {
     case LevelID_HighLow:
       return new HighLowLevel(_screen);
+
+    case LevelID_MarbleMaze: {
+      MarbleMazeLevel *level = new MarbleMazeLevel(_screen);
+      level->SetContainer(this);
+      return level;
+    }
 
     case LevelID_WireBlue:
       return new WireLevel(_screen, W_BLUE, &_defused_wires);
@@ -132,10 +148,8 @@ void GameScene::HandleFrame(unsigned char frame) {
     _current_level->HandleFrame(frame);
 
   if(frame % FPS == 1) {
-    static bool odd = true;
-
-    tone(AUDIO_PIN, odd ? NOTE_C3 : NOTE_F2, 250);
-    odd = !odd;
+    tone(AUDIO_PIN, _odd ? NOTE_C3 : NOTE_F2, 250);
+    _odd = !_odd;
 
     _time--;
     WriteTime();
@@ -145,6 +159,9 @@ void GameScene::HandleFrame(unsigned char frame) {
 void GameScene::WriteTime() {
 
   uint8_t cursor = 0;
+
+  if(_printed_time.did_draw == 0)
+    draw_image(_screen, "0.bmp", CLOCK_X - 9, CLOCK_Y - 21);
 
   if(_printed_time.did_draw == 0 || ((_time / 60) / 10) != _printed_time.minute0) {
     _screen->drawChar(CLOCK_X + cursor, CLOCK_Y, '0' + _printed_time.minute0,
@@ -217,16 +234,15 @@ SceneID GameScene::HandleInput() {
 
       _level_index++;
 
-      // TODO winning
       if(_level_index >= _level_count)
-        return SceneID_Splash;
+        return SceneID_GameWin;
 
       LoadLevel();
     break;
 
     case GAME_OVER:
-      // TODO losing
-      return SceneID_Difficulty;
+      delete _current_level;
+      return SceneID_GameOver;
     break;
   }
 

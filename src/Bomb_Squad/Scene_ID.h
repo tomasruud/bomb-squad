@@ -5,7 +5,9 @@ typedef enum SceneID {
   SceneID_Splash,
   SceneID_Difficulty,
   SceneID_Instructions,
-  SceneID_Game
+  SceneID_Game,
+  SceneID_GameOver,
+  SceneID_GameWin
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include "Instruction_Scene.h"
 #include "Image.h"
-#include "Button.h"
+#include "Pins.h"
 
 void InstructionScene::Bootstrap() {
 

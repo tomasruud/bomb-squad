@@ -17,7 +17,7 @@
 #include "Transition.h"
 
 #define INPUT_READ_RATE 10
-#define BOOT_SCENE SceneID_Splash
+#define BOOT_SCENE SceneID_Game
 
 TFT screen = TFT(TFT_CS, TFT_DC, TFT_RST);
 
@@ -94,7 +94,7 @@ void handle_input() {
 
       current_scene_id = next;
 
-      Transition::ThatsAllFolks(&screen);
+      Transition::ThatsAllFolks(&screen, COLOR_TEXT, COLOR_BG);
 
       load_scene();
     }

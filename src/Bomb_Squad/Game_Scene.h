@@ -18,12 +18,20 @@ class GameScene : public Scene {
     virtual void HandleFrame(unsigned char frame);
     virtual SceneID HandleInput();
 
+    void NotifyRedrawTimer() {
+      _printed_time.did_draw = 0;
+    };
+
   private:
     void LoadLevel();
 
     Level *BuildLevel(LevelID id);
 
     void WriteTime();
+    void ShowIntro();
+
+    void PrepareLevels();
+    bool MissingWires();
 
     uint32_t _time;
 
@@ -43,6 +51,8 @@ class GameScene : public Scene {
     LevelID _levels[WIRE_LEVELS + LEVELS];
 
     WireArray _defused_wires;
+
+    bool _odd = true;
 };
 
 #endif

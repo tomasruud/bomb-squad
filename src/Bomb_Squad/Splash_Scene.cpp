@@ -1,9 +1,9 @@
 #include "Splash_Scene.h"
 #include "Display.h"
 #include "Colors.h"
-#include "Button.h"
 #include "Arduino.h"
 #include "Image.h"
+#include "Pins.h"
 
 void SplashScene::Bootstrap() {
 

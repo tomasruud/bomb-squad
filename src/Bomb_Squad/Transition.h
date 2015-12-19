@@ -5,9 +5,12 @@
 
 class Transition {
   public:
-    static void Interlace(TFT *_screen);
-    static void ThatsAllFolks(TFT *_screen);
-    static void Explode(TFT *_screen);
+    static void Interlace(TFT *screen);
+    static void ThatsAllFolks(TFT *screen, uint16_t from, uint16_t to);
+    static void Expand(TFT *screen, uint16_t to);
+    static void Close(TFT *screen, uint16_t to);
+    static void Explode(TFT *screen);
+    static void Circle(TFT *screen, uint16_t color);
 };
 
 #endif

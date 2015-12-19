@@ -1,5 +1,5 @@
-#ifndef LOCK_LEVEL_SCENE
-#define LOCK_LEVEL_SCENE
+#ifndef INSTRUCTION_SCENE_H_
+#define INSTRUCTION_SCENE_H_
 
 #include "Scene.h"
 

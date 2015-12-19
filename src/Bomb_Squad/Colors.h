@@ -1,7 +1,8 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
-#define BGR(B, G, R) RGB(R, G, B)
+#include "Arduino.h"
+
 #define RGB(R, G, B) ((((R) & 0xF8) << 8) | (((G) & 0xFC) << 3) | ((B) >> 3))
 
 #define COLOR_BG RGB(76, 20, 87)
@@ -10,5 +11,12 @@
 #define COLOR_GREEN RGB(129, 255, 111)
 #define COLOR_RED RGB(248, 18, 18)
 #define COLOR_GRAY RGB(24, 24, 24)
+
+class Color {
+  public:
+    static uint16_t BGR(uint8_t b, uint8_t g, uint8_t r) {
+      return RGB(b, g, r);
+    };
+};
 
 #endif

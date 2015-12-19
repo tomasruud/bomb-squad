@@ -80,7 +80,7 @@ void draw_image(TFT *screen, char *filename, uint8_t x, uint8_t y) {
               buffidx = 0;
             }
 
-            screen->pushColor(BGR(sdbuffer[buffidx++], sdbuffer[buffidx++], sdbuffer[buffidx++]));
+            screen->pushColor(Color::BGR(sdbuffer[buffidx++], sdbuffer[buffidx++], sdbuffer[buffidx++]));
           }
         }
       }

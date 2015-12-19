@@ -62,9 +62,9 @@ bool HighLowLevel::CheckInput(bool higher) {
     _data.next_number = random(0, HIGH);
 
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 LevelAction HighLowLevel::HandleLevelInput() {

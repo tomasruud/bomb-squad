@@ -9,8 +9,9 @@
 
 #define SD_CS 4
 
-#define X_PIN A0
-#define Y_PIN A2
+// These are flipped because the screen is in portrait
+#define X_PIN A2
+#define Y_PIN A0
 
 #define AUDIO_PIN A1
 
