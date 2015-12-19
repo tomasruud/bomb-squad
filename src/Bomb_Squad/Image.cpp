@@ -4,16 +4,14 @@
 
 #include <SD.h>
 
-// Code from Arduino example SD > spitfbitmap modified and minified and
+// Code from Arduino example "SD > spitfbitmap" modified, minified and
 // improved commenting based on this:
 // http://www.fastgraph.com/help/bmp_header_format.html
 
 static uint16_t read2(File f) {
 
   uint16_t result;
-
-  ((uint8_t *)&result)[0] = f.read();
-  ((uint8_t *)&result)[1] = f.read();
+  f.read(&result, 2);
 
   return result;
 }
@@ -21,11 +19,7 @@ static uint16_t read2(File f) {
 static uint32_t read4(File f) {
 
   uint32_t result;
-
-  ((uint8_t *)&result)[0] = f.read();
-  ((uint8_t *)&result)[1] = f.read();
-  ((uint8_t *)&result)[2] = f.read();
-  ((uint8_t *)&result)[3] = f.read();
+  f.read(&result, 4);
 
   return result;
 }
@@ -86,11 +80,7 @@ void draw_image(TFT *screen, char *filename, uint8_t x, uint8_t y) {
               buffidx = 0;
             }
 
-            uint8_t b = sdbuffer[buffidx++];
-            uint8_t g = sdbuffer[buffidx++];
-            uint8_t r = sdbuffer[buffidx++];
-
-            screen->pushColor(RGB(r, g, b));
+            screen->pushColor(BGR(sdbuffer[buffidx++], sdbuffer[buffidx++], sdbuffer[buffidx++]));
           }
         }
       }

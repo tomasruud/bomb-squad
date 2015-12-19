@@ -37,7 +37,7 @@ void Transition::ThatsAllFolks(TFT *_screen) {
     delay((TRANSITION_MS / 2) / TFT_H);
   }
 
-  for(int16_t i = TFT_H2; i >= 0; i--) {
+  for(int8_t i = TFT_H2; i >= 0; i--) {
 
     _screen->drawFastHLine(0, i, TFT_W, COLOR_BG);
     _screen->drawFastHLine(0, TFT_H - 1 - i, TFT_W, COLOR_BG);
