@@ -28,7 +28,8 @@ Thread input_thread;
 SceneID current_scene_id;
 Scene *current_scene;
 
-unsigned char g_difficulty = 0;
+uint8_t g_difficulty = 0;
+int16_t g_time_left = 0;
 
 void setup() {
 

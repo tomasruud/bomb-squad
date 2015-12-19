@@ -4,7 +4,7 @@
 
 void InstructionScene::Bootstrap() {
 
-  draw_image(_screen, "2/0.bmp", 10, 10);
+  ImageUtil::Draw(_screen, "2/0.bmp", 10, 10);
 }
 
 void InstructionScene::HandleFrame(unsigned char frame) {}

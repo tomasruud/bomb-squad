@@ -1,10 +1,14 @@
 #include "High_Low_Level.h"
 #include "Display.h"
 #include "Colors.h"
+#include "Image.h"
 #include "Globals.h"
 
 #define HIGH 10
 #define MAX_ROUNDS (4 + g_difficulty)
+
+
+#define ROUND_X
 
 void HighLowLevel::Bootstrap() {
 
@@ -14,6 +18,14 @@ void HighLowLevel::Bootstrap() {
   _data.next_number = random(0, HIGH);
   _data.number = random(0, HIGH);
   _data.last_number = _data.number;
+
+  ImageUtil::Draw(_screen, "4/0.bmp", 60, 40);
+  ImageUtil::Draw(_screen, "4/1.bmp", 20, 20);
+
+  _screen->drawChar(120, 20, '/', COLOR_TEXT, COLOR_BG, FONT_SIZE_LARGE);
+
+  _screen->drawChar(135, 20, '0' + MAX_ROUNDS,
+                    COLOR_TEXT, COLOR_BG, FONT_SIZE_LARGE);
 
   DrawNumber();
   DrawRound();
@@ -38,20 +50,20 @@ void HighLowLevel::HandleFrame(unsigned char frame) {
 
 void HighLowLevel::DrawNumber() {
 
-  _screen->drawChar(10, 10, '0' + _data.last_number,
-                    COLOR_BG, COLOR_BG, FONT_SIZE_HUGE);
+  _screen->drawChar(29, 46, '0' + _data.last_number,
+                    COLOR_TEXT, COLOR_TEXT, FONT_SIZE_HUGE);
 
-  _screen->drawChar(10, 10, '0' + _data.number,
-                    COLOR_TEXT, COLOR_BG, FONT_SIZE_HUGE);
+  _screen->drawChar(29, 46, '0' + _data.number,
+                    COLOR_BG, COLOR_TEXT, FONT_SIZE_HUGE);
 }
 
 void HighLowLevel::DrawRound() {
 
-  _screen->drawChar(50, 10, '0' + _data.last_round,
-                    COLOR_BG, COLOR_BG, FONT_SIZE_HUGE);
+  _screen->drawChar(110, 20, '0' + _data.last_round,
+                    COLOR_BG, COLOR_BG, FONT_SIZE_LARGE);
 
-  _screen->drawChar(50, 10, '0' + _data.round,
-                    COLOR_TEXT, COLOR_BG, FONT_SIZE_HUGE);
+  _screen->drawChar(110, 20, '0' + _data.round,
+                    COLOR_TEXT, COLOR_BG, FONT_SIZE_LARGE);
 }
 
 bool HighLowLevel::CheckInput(bool higher) {

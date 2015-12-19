@@ -28,7 +28,7 @@ class DifficultyScene : public Scene {
     const unsigned char _option_locations[3] = {52, 70, 88};
 
     char _option = 0;
-    char _last_option = 1;
+    char _last_option = 4;
 
     unsigned short _x = 0;
     unsigned short _y = 0;

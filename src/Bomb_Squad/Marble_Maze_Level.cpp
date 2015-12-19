@@ -21,7 +21,7 @@
 #define MAX_Y TFT_H - BALL_SIZE
 
 #define WALL_THIKNESS (3 + g_difficulty * 3)
-#define BACKGROUND RGB(243, 156, 18)
+#define BACKGROUND COLOR_BG
 
 void MarbleMazeLevel::Bootstrap() {
 
@@ -40,7 +40,6 @@ void MarbleMazeLevel::Bootstrap() {
 
   _screen->fillRect(TFT_W - 20, 0, 20, 20, COLOR_GREEN);
 
-  _screen->fillCircle(TFT_W - 1, TFT_H - 1, 60, COLOR_BG);
   _container->NotifyRedrawTimer();
 
   for(uint8_t i = 0; i < SAMPLES; i++)
@@ -68,15 +67,13 @@ void MarbleMazeLevel::ReadAccelerometer() {
 
 void MarbleMazeLevel::DrawWalls() {
 
-  _screen->fillScreen(BACKGROUND);
-
   for(uint8_t i = 0; i < WALLS; i++) {
     Wall *wall = walls + i;
 
     if(wall->horizontal == 0x1)
-      _screen->fillRect(wall->x * 8, wall->y * 8, wall->length * 8, WALL_THIKNESS, COLOR_GRAY);
+      _screen->fillRect(wall->x * 8, wall->y * 8, wall->length * 8, WALL_THIKNESS, COLOR_RED);
     else
-      _screen->fillRect(wall->x * 8, wall->y * 8, WALL_THIKNESS, wall->length * 8, COLOR_GRAY);
+      _screen->fillRect(wall->x * 8, wall->y * 8, WALL_THIKNESS, wall->length * 8, COLOR_RED);
   }
 }
 

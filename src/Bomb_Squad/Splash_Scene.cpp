@@ -7,8 +7,8 @@
 
 void SplashScene::Bootstrap() {
 
-  draw_image(_screen, "0/0.bmp", 7, 13);
-  draw_image(_screen, "0/1.bmp", 21, 117);
+  ImageUtil::Draw(_screen, "0/0.bmp", 7, 13);
+  ImageUtil::Draw(_screen, "0/1.bmp", 21, 117);
 }
 
 void SplashScene::HandleFrame(unsigned char frame) {

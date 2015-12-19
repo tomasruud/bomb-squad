@@ -41,8 +41,8 @@ void GameScene::PrepareLevels() {
   }
 
   // Shuffle wire order
-  for(uint8_t i = 0; i < WIRE_LEVELS - 1; i++) {
-    uint8_t j = random(1, WIRE_LEVELS - i);
+  for(uint8_t i = 0; i < sizeof(wire_levels) / sizeof(wire_levels[0]) - 1; i++) {
+    uint8_t j = random(1, sizeof(wire_levels) / sizeof(wire_levels[0]) - i);
 
     LevelID temp = wire_levels[0];
     wire_levels[0] = wire_levels[j];
@@ -153,6 +153,7 @@ void GameScene::HandleFrame(unsigned char frame) {
     _odd = !_odd;
 
     _time--;
+    g_time_left = _time;
     WriteTime();
   }
 }
@@ -162,7 +163,7 @@ void GameScene::WriteTime() {
   uint8_t cursor = 0;
 
   if(_printed_time.did_draw == 0)
-    draw_image(_screen, "0.bmp", CLOCK_X - 9, CLOCK_Y - 21);
+    ImageUtil::Draw(_screen, "0.bmp", CLOCK_X - 9, CLOCK_Y - 21);
 
   if(_printed_time.did_draw == 0 || ((_time / 60) / 10) != _printed_time.minute0) {
     _screen->drawChar(CLOCK_X + cursor, CLOCK_Y, '0' + _printed_time.minute0,

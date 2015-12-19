@@ -7,11 +7,13 @@
 
 void DifficultyScene::Bootstrap() {
 
-  draw_image(_screen, "1/0.bmp", 9, 16);
-  draw_image(_screen, "1/1.bmp", 94, 54);
-  draw_image(_screen, "1/2.bmp", 70, 72);
-  draw_image(_screen, "1/3.bmp", 92, 90);
-  draw_image(_screen, "1/4.bmp", 17, 57);
+  _option = g_difficulty;
+
+  ImageUtil::Draw(_screen, "1/0.bmp", 9, 16);
+  ImageUtil::Draw(_screen, "1/1.bmp", 94, 54);
+  ImageUtil::Draw(_screen, "1/2.bmp", 70, 72);
+  ImageUtil::Draw(_screen, "1/3.bmp", 92, 90);
+  ImageUtil::Draw(_screen, "1/4.bmp", 17, 57);
 }
 
 void DifficultyScene::HandleFrame(unsigned char frame) {

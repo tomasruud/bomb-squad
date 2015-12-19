@@ -2,13 +2,11 @@
 #include "Display.h"
 #include "Image.h"
 
-#include <SD.h>
-
 // Code from Arduino example "SD > spitfbitmap" modified, minified and
 // improved commenting based on this:
 // http://www.fastgraph.com/help/bmp_header_format.html
 
-static uint16_t read2(File f) {
+uint16_t ImageUtil::Read2(File f) {
 
   uint16_t result;
   f.read(&result, 2);
@@ -16,7 +14,7 @@ static uint16_t read2(File f) {
   return result;
 }
 
-static uint32_t read4(File f) {
+uint32_t ImageUtil::Read4(File f) {
 
   uint32_t result;
   f.read(&result, 4);
@@ -24,7 +22,7 @@ static uint32_t read4(File f) {
   return result;
 }
 
-void draw_image(TFT *screen, char *filename, uint8_t x, uint8_t y) {
+void ImageUtil::Draw(TFT *screen, char *filename, uint8_t x, uint8_t y) {
 
   if((x >= TFT_W) || (y >= TFT_H))
     return;
@@ -37,22 +35,22 @@ void draw_image(TFT *screen, char *filename, uint8_t x, uint8_t y) {
   uint8_t sdbuffer[BUFFER_SIZE];
   uint8_t buffidx = BUFFER_SIZE;
 
-  if(read2(image_file) == 0x4D42) {
+  if(Read2(image_file) == 0x4D42) {
 
-    (void) read4(image_file); // Skip filesize
-    (void) read4(image_file); // Skip reserved memory
+    (void) Read4(image_file); // Skip filesize
+    (void) Read4(image_file); // Skip reserved memory
 
-    uint8_t image_offset = read4(image_file);
+    uint8_t image_offset = Read4(image_file);
 
-    (void) read4(image_file); // Skip this field
+    (void) Read4(image_file); // Skip this field
 
-    uint8_t image_width = read4(image_file);
-    uint8_t image_height = read4(image_file);
+    uint8_t image_width = Read4(image_file);
+    uint8_t image_height = Read4(image_file);
 
-    if(read2(image_file) == 1) { // Planes must be 1
+    if(Read2(image_file) == 1) { // Planes must be 1
 
       // Check that image has 24-bit colors and no compression
-      if((read2(image_file) == 24) && (read4(image_file) == 0)) {
+      if((Read2(image_file) == 24) && (Read4(image_file) == 0)) {
         uint16_t image_row_size = (image_width * 3 + 3) & ~3;
 
         uint8_t w = image_width;
