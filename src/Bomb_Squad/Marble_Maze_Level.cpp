@@ -181,21 +181,14 @@ LevelAction MarbleMazeLevel::HandleLevelInput() {
   int8_t move_x = 0;
   int8_t move_y = 0;
 
-  int8_t speed_x = map(GetAverageX(), X_NORMAL - BOUNDS, X_NORMAL + BOUNDS, 0, MAX_SPEED) - (MAX_SPEED / 2);
-  int8_t speed_y = map(GetAverageY(), Y_NORMAL - BOUNDS, Y_NORMAL + BOUNDS, 0, MAX_SPEED) - (MAX_SPEED / 2);
+  int8_t speed_x = map(GetAverageX(), X_NORMAL - BOUNDS - THRESHOLD * 2, X_NORMAL + BOUNDS, 0, MAX_SPEED) - (MAX_SPEED / 2);
+  int8_t speed_y = map(GetAverageY(), Y_NORMAL - BOUNDS - THRESHOLD * 2, Y_NORMAL + BOUNDS, 0, MAX_SPEED) - (MAX_SPEED / 2);
 
   if(abs(GetAverageX() - X_NORMAL) > THRESHOLD)
     move_x = -speed_x;
 
   if(abs(GetAverageY() - Y_NORMAL) > THRESHOLD)
     move_y = -speed_y;
-
-  // Smoooothing
-  if(move_x == 0 && _last_move_x != 0)
-    move_x = _last_move_x / 2;
-
-  if(move_y == 0 && _last_move_y != 0)
-    move_y = _last_move_y / 2;
 
   _last_move_x = move_x;
   _last_move_y = move_y;
