@@ -85,13 +85,8 @@ void load_scene() {
 
   current_scene = SceneFactory::Create(current_scene_id, &screen);
 
-  if(current_scene == NULL) {
-    screen.setTextColor(COLOR_TEXT);
-    screen.setCursor(4, 4);
-    return;
-  }
-
-  current_scene->Bootstrap();
+  if(current_scene != NULL)
+    current_scene->Bootstrap();
 }
 
 void handle_timer() {

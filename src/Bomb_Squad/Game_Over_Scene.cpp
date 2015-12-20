@@ -35,13 +35,6 @@ void GameOverScene::Bootstrap() {
   _screen->setCursor(40, 50);
   _screen->println((g_time_left < 0) ? F("No more time") : F("You messed up"));
 
-  for(uint8_t i = 0; i < 25; i++) {
-    tone(AUDIO_PIN, NOTE_C6 - i * 40);
-    delay(20);
-    noTone(AUDIO_PIN);
-    delay(20);
-  }
-
   delay(50);
 
   ImageUtil::Draw(_screen, 8, 18, 64);
