@@ -1,0 +1,36 @@
+<svg width="800" height="550" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <g>
+  <title>Layer 1</title>
+  <rect id="svg_1" height="92.000004" width="215" y="47" x="53" stroke-width="5" stroke="#000000" fill="#aaffaa"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="17" id="svg_2" y="81" x="162" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000">Bomb_Squad.ino</text>
+  <text id="svg_3" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="17" y="110.5" x="159.007813" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000">(Container)</text>
+  <path id="svg_5" d="m28.000589,29.000601l0,-0.562502l0,0c0,-0.241623 0.195875,-0.437498 0.4375,-0.437498l0,0l0,0c0.116034,0 0.227314,0.046093 0.309361,0.128139c0.082047,0.082048 0.128141,0.193327 0.128141,0.309359l0,0.0625l0.124998,0l-0.25,0.250002l-0.25,-0.250002l0.125,0l0,-0.0625c0,-0.103552 -0.083946,-0.187498 -0.1875,-0.187498l0,0l0,0c-0.103552,0 -0.1875,0.083946 -0.1875,0.187498l0,0.562502z" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <path transform="rotate(89.83833312988281 250.7626953125,167.70382690429688) " id="svg_6" d="m221.265533,180.217514l40.411224,0l0,-25.027374l-6.194412,0l12.388748,-12.512985l12.388763,12.512985l-6.194519,0l0,37.540375l-52.799805,0l0,-12.513z" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <rect id="svg_7" height="92.000004" width="215" y="46.999996" x="288.5" stroke-width="5" stroke="#000000" fill="#ffffaa"/>
+  <text id="svg_8" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="17" y="100.5" x="391.007813" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000">Scene instance 1</text>
+  <path id="svg_9" transform="rotate(89.83833312988281 475.936279296875,395.70382690429693) " d="m446.439087,408.217529l40.411255,0l0,-25.027405l-6.194427,0l12.388733,-12.513l12.388763,12.513l-6.194519,0l0,37.540405l-52.799805,0l0,-12.513z" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <rect id="svg_10" height="92.000004" width="215" y="245.999992" x="530.673561" stroke-width="5" stroke="#000000" fill="#ffaaaa"/>
+  <text id="svg_11" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="17" y="299.499996" x="633.181374" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000">Level instance 1</text>
+  <rect id="svg_12" height="92.000004" width="215" y="160.999996" x="288.5" stroke-width="5" stroke="#000000" fill="#ffffaa"/>
+  <text id="svg_13" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="17" y="214.5" x="391.007813" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000">Scene instance n</text>
+  <rect id="svg_14" height="92.000004" width="215" y="271.999996" x="289.5" stroke-width="5" stroke="#000000" fill="#ffffaa"/>
+  <text id="svg_15" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="17" y="325.5" x="392.007813" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000">GameScene</text>
+  <text xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="17" id="svg_19" y="175" x="150" opacity="0.9" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000">(Creates/deletes)</text>
+  <text id="svg_20" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="17" y="200.5" x="149.015625" opacity="0.9" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000">Max 1 instance</text>
+  <rect id="svg_21" height="92.000004" width="215" y="354.999992" x="532.673561" stroke-width="5" stroke="#000000" fill="#ffaaaa"/>
+  <text id="svg_22" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="17" y="408.499996" x="635.181374" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000">Level instance n</text>
+  <g id="svg_23">
+   <line stroke-width="7" id="svg_16" y2="41" x2="276" y1="39" x1="296" opacity="0.9" stroke-linecap="null" stroke-linejoin="null" stroke="#000000" fill="none"/>
+   <line stroke-width="7" id="svg_17" y2="381" x2="279" y1="36" x1="277" opacity="0.9" stroke-linecap="null" stroke-linejoin="null" stroke="#000000" fill="none"/>
+   <line stroke-width="7" id="svg_18" y2="376" x2="304" y1="376" x1="278" opacity="0.9" stroke-linecap="null" stroke-linejoin="null" stroke="#000000" fill="none"/>
+  </g>
+  <g id="svg_24">
+   <line id="svg_25" stroke-width="7" y2="228.152174" x2="512" y1="226.691304" x1="532" opacity="0.9" stroke-linecap="null" stroke-linejoin="null" stroke="#000000" fill="none"/>
+   <line id="svg_26" stroke-width="7" y2="476.499997" x2="515" y1="224.5" x1="513" opacity="0.9" stroke-linecap="null" stroke-linejoin="null" stroke="#000000" fill="none"/>
+   <line id="svg_27" stroke-width="7" y2="472.847824" x2="540" y1="472.847824" x1="514" opacity="0.9" stroke-linecap="null" stroke-linejoin="null" stroke="#000000" fill="none"/>
+  </g>
+  <text id="svg_28" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="17" y="425.75" x="371.015625" opacity="0.9" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000">(Creates/deletes)</text>
+  <text id="svg_29" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="17" y="451.25" x="370.03125" opacity="0.9" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#000000">Max 1 instance</text>
+ </g>
+</svg>
