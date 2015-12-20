@@ -10,6 +10,7 @@
 #define SD_CS 4
 
 // These are flipped because the screen is in portrait
+// X pin on the screen is Y on the Arduino and vice-versa
 #define X_PIN A2
 #define Y_PIN A0
 

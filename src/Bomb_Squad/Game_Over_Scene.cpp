@@ -5,6 +5,7 @@
 #include "Pins.h"
 #include "Globals.h"
 #include "Display.h"
+#include "Pitches.h"
 
 void GameOverScene::Bootstrap() {
 
@@ -21,11 +22,27 @@ void GameOverScene::Bootstrap() {
     _screen->setCursor(70, 60 + FONT_HEIGHT);
     _screen->print(F("Great success!"));
 
+    tone(AUDIO_PIN, NOTE_C6, 150);
+    delay(200);
+    tone(AUDIO_PIN, NOTE_C3, 100);
+    delay(150);
+    tone(AUDIO_PIN, NOTE_C6, 400);
+    delay(400);
+
     return;
   }
 
   _screen->setCursor(40, 50);
   _screen->println((g_time_left < 0) ? F("No more time") : F("You messed up"));
+
+  for(uint8_t i = 0; i < 25; i++) {
+    tone(AUDIO_PIN, NOTE_C6 - i * 40);
+    delay(20);
+    noTone(AUDIO_PIN);
+    delay(20);
+  }
+
+  delay(50);
 
   ImageUtil::Draw(_screen, 8, 18, 64);
 }

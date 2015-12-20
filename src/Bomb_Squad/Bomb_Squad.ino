@@ -17,7 +17,7 @@
 #include "Transition.h"
 
 #define INPUT_READ_RATE 10
-#define BOOT_SCENE SceneID_Splash
+#define BOOT_SCENE SceneID_Game
 
 uint8_t g_difficulty = 0;
 int16_t g_time_left = 0;

@@ -4,3 +4,4 @@
 - PROGMEM
 - Krever ArduinoThread-biblioteket https://github.com/ivanseidel/ArduinoThread
 - Kalibrere akselerometeret
+- Filnavn og struktur
