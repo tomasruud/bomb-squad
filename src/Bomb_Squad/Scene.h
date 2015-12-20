@@ -15,6 +15,7 @@ class Scene {
     virtual void Bootstrap() {}
     virtual void HandleFrame(unsigned char frame) {}
     virtual SceneID HandleInput() {}
+    virtual void HandleTimer() {}
 };
 
 #endif

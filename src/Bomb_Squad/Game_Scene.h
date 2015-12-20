@@ -2,6 +2,7 @@
 #define GAME_SCENE
 
 #include "Arduino.h"
+
 #include "Scene.h"
 #include "Level.h"
 #include "Level_ID.h"
@@ -9,6 +10,7 @@
 
 #define LEVELS 3
 #define WIRE_LEVELS 4
+#define BEEP_RATE 1
 
 class GameScene : public Scene {
   public:
@@ -17,6 +19,7 @@ class GameScene : public Scene {
     virtual void Bootstrap();
     virtual void HandleFrame(unsigned char frame);
     virtual SceneID HandleInput();
+    virtual void HandleTimer();
 
   private:
     void LoadLevel();

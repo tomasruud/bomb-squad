@@ -1,7 +1,5 @@
 #include "Game_Scene.h"
 
-#include <avr/pgmspace.h>
-
 #include "Pitches.h"
 #include "Display.h"
 #include "Colors.h"
@@ -24,13 +22,13 @@
 
 void GameScene::PrepareLevels() {
 
-  LevelID game_levels[LEVELS] = {
+  LevelID game_levels[] = {
+    LevelID_Lock,
     LevelID_MarbleMaze,
-    LevelID_HighLow,
-    LevelID_Lock
+    LevelID_HighLow
   };
 
-  LevelID wire_levels[WIRE_LEVELS] = {
+  LevelID wire_levels[] = {
     LevelID_WireBlue,
     LevelID_WireOrange,
     LevelID_WireGreen,
@@ -121,6 +119,16 @@ void GameScene::LoadLevel() {
     _current_level->Bootstrap();
 }
 
+void GameScene::HandleTimer() {
+
+  tone(AUDIO_PIN, NOTE_C4, 250); // C4 hehe
+
+  _time--;
+  g_time_left = _time;
+
+  WriteTime();
+}
+
 Level *GameScene::BuildLevel(LevelID id) {
 
   switch(id) {
@@ -153,14 +161,6 @@ void GameScene::HandleFrame(unsigned char frame) {
 
   if(_current_level != NULL)
     _current_level->HandleFrame(frame);
-
-  if(frame % FPS == 1) {
-    tone(AUDIO_PIN, NOTE_C4, 250); // C4 hehe
-
-    _time--;
-    g_time_left = _time;
-    WriteTime();
-  }
 }
 
 void GameScene::WriteTime() {

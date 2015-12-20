@@ -19,17 +19,19 @@
 #define INPUT_READ_RATE 10
 #define BOOT_SCENE SceneID_Splash
 
+uint8_t g_difficulty = 0;
+int16_t g_time_left = 0;
+
 TFT screen = TFT(TFT_CS, TFT_DC, TFT_RST);
 
 ThreadController thread_pool;
+
 Thread gui_thread;
 Thread input_thread;
+Thread timer_thread;
 
-SceneID current_scene_id;
 Scene *current_scene;
-
-uint8_t g_difficulty = 0;
-int16_t g_time_left = 0;
+SceneID current_scene_id;
 
 void setup() {
 
@@ -57,8 +59,12 @@ void setup() {
   input_thread.onRun(handle_input);
   input_thread.setInterval(INPUT_READ_RATE);
 
+  timer_thread.onRun(handle_timer);
+  timer_thread.setInterval(1000);
+
   thread_pool.add(&gui_thread);
   thread_pool.add(&input_thread);
+  thread_pool.add(&timer_thread);
 
   current_scene_id = BOOT_SCENE;
   load_scene();
@@ -67,6 +73,12 @@ void setup() {
 void loop() {
 
   thread_pool.run();
+
+#ifdef DEBUG_MEMORY
+  extern int __heap_start, *__brkval;
+  int v;
+  DEBUG((int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval));
+#endif
 }
 
 void load_scene() {
@@ -80,6 +92,12 @@ void load_scene() {
   }
 
   current_scene->Bootstrap();
+}
+
+void handle_timer() {
+
+  if(current_scene != NULL)
+    current_scene->HandleTimer();
 }
 
 void handle_input() {

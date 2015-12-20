@@ -66,7 +66,7 @@ void MarbleMazeLevel::ReadAccelerometer() {
 void MarbleMazeLevel::DrawWalls() {
 
   for(uint8_t i = 0; i < WALLS; i++) {
-    const Wall *wall = walls + i;
+    const Wall *wall = _walls + i;
 
     if(wall->horizontal == 0x1)
       _screen->fillRect(wall->x * 8, wall->y * 8, wall->length * 8, WALL_THIKNESS, COLOR_RED);
@@ -93,7 +93,7 @@ void MarbleMazeLevel::HandleBounds() {
 bool MarbleMazeLevel::CheckCollision() {
 
   for(uint8_t i = 0; i < WALLS; i++) {
-    const Wall *wall = walls + i;
+    const Wall *wall = _walls + i;
 
     uint8_t wall_height = wall->horizontal ? WALL_THIKNESS : wall->length * 8;
     uint8_t wall_width  = wall->horizontal ? wall->length * 8 : WALL_THIKNESS;

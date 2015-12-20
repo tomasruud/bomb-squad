@@ -15,15 +15,6 @@ struct Wall {
   uint16_t length:5;
 };
 
-const Wall walls[] = {
-  { .horizontal = 0, .x = 2,  .y = 2,  .length = 8 },
-  { .horizontal = 1, .x = 2,  .y = 10, .length = 8 },
-  { .horizontal = 0, .x = 10, .y = 5,  .length = 14 },
-  { .horizontal = 0, .x = 10, .y = 0,  .length = 2 },
-  { .horizontal = 1, .x = 10, .y = 7,  .length = 10 },
-  { .horizontal = 0, .x = 6,  .y = 0,  .length = 6 }
-};
-
 // WALL_X      0 - 19
 // WALL_Y      0 - 15
 // WALL_LENGTH 0 - 15 or 0 - 19
@@ -66,6 +57,15 @@ class MarbleMazeLevel : public Level {
     int16_t _last_ball_position_y = 0;
 
     uint8_t _read_index = 0;
+
+    const Wall _walls[WALLS] = {
+      { .horizontal = 0, .x = 2,  .y = 2,  .length = 8  },
+      { .horizontal = 1, .x = 2,  .y = 10, .length = 8  },
+      { .horizontal = 0, .x = 10, .y = 5,  .length = 14 },
+      { .horizontal = 0, .x = 10, .y = 0,  .length = 2  },
+      { .horizontal = 1, .x = 10, .y = 7,  .length = 10 },
+      { .horizontal = 0, .x = 6,  .y = 0,  .length = 6  }
+    };
 
     struct {
       uint8_t over:1;
