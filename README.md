@@ -1,23 +1,46 @@
 # Dokumentasjon
 Videodemonstrasjon av løsningen kan sees her: https://youtu.be/AQeiSyJKehU
 
+Jeg hadde ikke stativ tilgjengelig, så det ble litt vinglete, men jeg tror det viser greit en del av spillet. Jeg måtte klippe det sammen litt, fordi det var ekstremt vanskelig å gjennomføre spillet mens jeg filmet. I tillegg ble jeg frustrert av å ikke klare minispillene.
+
 ## Mappestsruktur
 - Filnavn og struktur
 
 ## Forutsetninger
 Det er en del forutsetninger som ligger til grunn for at løsningen skal kunne kjøres. For det første må alle filene i mappen `res` legges over på roten av et minnekort som støttes av Arduino's SD-bibliotek, og settes i skjermen, slik at grafikk kan bli lastet inn i programmet.
 
+I og med at progammet så og si tar hele programminnet på Arduinoen, er det ikke sikkert det vil kompilere fra alle maskiner. Jeg har kompilert koden både på Windows og Ubuntu, og det skiller noen bytes til og fra. (Jeg er 4 bytes unna grensen på Windows, og 8 unna på Ubuntu) Jeg regner med at dette ikke er et problem.
+
 - Kalibrere akselerometeret
 - Krever ArduinoThread-biblioteket - https://github.com/ivanseidel/ArduinoThread
 
+## Om spillet
+Spillet er basert på en ide jeg har hatt siden så og si første time, da alle synes delene vi hadde i kittet så ut som bombeutstyr. Utifra dette tenkte jeg at det kunne vært kult å lage en slags form for bombe-desarmering, hvor man måtte dra ut ledninger i riktig rekkefølge for å desarmere en bombe. Ut i fra dette kom jeg frem til at jeg kunne lage noen minispill innimellom hver ledning, for å gjøre det mer som et spill. Ut i fra dette kom jeg frem til å lage en enkel versjon av Breakout, Joker og kulespill. Dette fordi de kan representeres relativt enkelt, men også fordi jeg kunne ta i bruk flere ulike komponeneter fra kittet.
+
+Jeg har med vilje/fordi jeg ikke hadde plass, valgt å ikke ta med instruksjoner på hvordan man skal spille. Dette er først og fremst fordi man selv skal finne ut av hvordan man skal desarmere bomben.
+
+Jeg har lagt på en nedtelling, men er litt usikker på hvor godt balansert den er. Jeg har klart spillet på easy, men har ikke klart medium og hard enda. Dette er et spill man kan bli veldig frustrert av, og det kombinerer både ferdigheter og hell.
+
 ## Kode
-![Programflyt](./docs/flow.svg)
-- Minnefragmentering ifht new og delete
-- PROGMEM
 - Animasjon
 - Overganger
 - Scener
 - Levler
+
+### Frigjøring av dynamisk minne (sRAM)
+For å sikre at det var nok dynamisk minne på Arduinoen, har jeg gjort ganske mange tiltak for å ha mest mulig ledig plass.
+
+Et av de viktigste tiltakene, er variabeltyper som brukes over alt i spillet. Jeg har gjort mitt beste for å sikre at hver eneste variabel som opprettes har minst mulig størrelse, og jeg har tatt i bruk bit field-structs for å pakke variabler enda mer sammen. Jeg har her benyttet meg av mange forskjellige typedefinisjoner som ligger i standardbiblioteket, som for eksempel `uint8_t`.
+
+For å sikre at tekst-strenger ikke fyller opp det dynamiske minnet, har jeg tatt i bruk `avr/progmem` biblioteket, for å lagre strenger kun i programminnet, og lese de ut derfra først når jeg har behov for det. Dette har jeg gjort spesielt med navn på grafikk på SD-kortet, i og med at dette blir brukt mange steder i applikasjonen. I tillegg har jeg brukt `F()` funksjonen på flere strenger som skrives ut på skjermen. Dette frigjør dermed veldig mye dynamisk minne. Jeg har måttet korte ned på filnavnene på SD-kortet nettopp av denne grunn, for å spare minne. Derfor har de ikke spesielt beskrivende navn, men det var nødvendig for å få plass til alt.
+
+I og med at programmet består av så mange forskjellige deler, var det helt nødvendig med en bestemt struktur på hva som vises på skjermen. For å forklare litt hvordan denne strukturen er, har jeg laget diagrammet under.
+![Programflyt](./docs/flow.svg)
+Som man kan se her, er selve ino-filen alltid lastet inn, og fungerer som en container for koden som kjøres. I containeren har jeg brukt et bibliotek som simulerer tråder på Arduinoen, som kjører tre rutiner med varierende frekvens. Det er en tråd som tar seg av GUI, som kjører med cirka 30 fps, en tråd som tar seg av input, hvert 10 millisekund, og en som tar seg av timer-ting og kjører hvert sekund. (Alle disse tidene er cirka, da det ikke egentlig er tråder som kjører parallelt, men etter hverandre. Hvis en tråd bruker for lang tid, vil dette føre til en hvis delay på de andre trådene. Selv om timeren på spillet ikke er 100% nøyaktig og hopper litt innimellom, føler jeg det ikke gjør noe, da det gir en Hollywood-effekt på hele spillet)
+
+Hver av disse trådene delegerer oppgavene videre til scenen som er lastet inn i minnet for øyeblikket. En scene representerer et skjermbilde/en del av programmet, og kun en scene er lastet inn i minnet av gangen. Når scenen er ferdig, slettes den før den nye opprettes. På denne måten sørger jeg for at det alltid er ledig minne for hver scene.
+
+Et problem med å bruke `new`/`delete` nøkkelordene, er at man allokerer og deallokerer minne på heapen, noe som kan føre til probelemer, spesielt på en Arduino. Som beskrevet [her](https://learn.adafruit.com/memories-of-an-arduino?view=all#solving-memory-problems), kan man ende opp med en fragmentert heap, og til slutt gå tom for minne, fordi det finnes mange ledige plasser rundt om i minnet, men disse er omringet av andre data. Jeg har forsøkt å debugge programmet, og hele tiden sjekke hvor mye ledig minne jeg har, og jeg har kommet frem til at dette sannsynligvis ikke er et problem men den strukturen jeg har nå. (For å kjøre med minne debug, fjern kommentarene i `Debugger.h`, men det er sannsynligvis ikke plass til det nå) I og med at hver level som blir opprettet havner sist på heapen, og ingen andre variabler allokeres under hver level, vil hele levelen bli fjernet fra heapen av spill-scenen når den avsluttes. Dermed vil hele denen delen av minnet frigjøres, og det vil sannsynligvis ikke føre til fragmentering. Det samme gjelder også for hver scene. Hver scene blir slettet før den nye opprettes, og alle levler blir slettet før en scene slettes. På denne måten er jeg ganske sikker på at heapen ikke vil fragmenteres, og koden vil fungere.
 
 ## Fritzing
 Koblingsskjemaet for løsningen ligger i mappen `docs`, i Fritzing-formatet `.fzz` og som vektorgrafikk `.svg`. Jeg har forsøkt å gjøre skjemaet så oversiktlig som mulig, men i og med at alle portene er i bruk, blir det naturlig nok en del kaos.
@@ -25,7 +48,7 @@ Koblingsskjemaet for løsningen ligger i mappen `docs`, i Fritzing-formatet `.fz
 ![Fritzing skjema](./docs/schematic.svg)
 
 ## Kilder
-### "Tråder"
+### Tråder
 - https://github.com/ivanseidel/ArduinoThread
 
 ### Minneproblematikk
