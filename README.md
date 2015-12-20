@@ -34,9 +34,11 @@ Jeg har lagt på en nedtelling, men er litt usikker på hvor godt balansert den 
 Det meste av grafikk i spillet har jeg laget selv, men noen bilder jeg har funnet på internett. Se punktet [grafikk](#grafikk) i kildelisten under. Jeg har forsøkt å bruke bilder for å *sprite opp* spillopplevelsen mer, og gjøre spillet mer livlig. I tillegg har jeg forsøkt å putte inn noen subtile animasjoner enkelte steder, for å gi grafikken mer liv. På for eksempel splash-skjermen har jeg lagt inn noen partikler som kommer fra lunta på bomba. Jeg har forsøkt å kombinere bilde-grafikken sammen med direkte tegning til skjerm, for å kunne lage mer detaljerte punktgrafikkbilder og gjøre de livlige med å tegne oppå de med kode.
 
 ## Lyd
-Jeg har tatt i bruk noe lyd, for å gjøre spillet litt mer interessant og levende. Jeg har lagt til en bombe-nedtellings-lyd under hele spillet, som i tillegg blinker en led i takt. Denne led-en er direkte koblet til høyttaleren, i og med at jeg ikke hadde flere ledige porter. Jeg har også en liten lyd som spilles av hvis man vinner
+Jeg har tatt i bruk noe lyd, for å gjøre spillet litt mer interessant og levende. Jeg har lagt til en bombe-nedtellings-lyd under hele spillet, som i tillegg blinker en led i takt. Denne led-en er direkte koblet til høyttaleren, i og med at jeg ikke hadde flere ledige porter. Jeg har også en liten lyd som spilles av hvis man vinner eller om man taper.
 
 ## Kode
+For å lese inn bilder fra SD-kortet, har jeg hentet kode fra et av kodeeksempelene som fulgte med SD-biblioteket. Dette gjorde jeg fordi jeg ønsket å optimalisere utkskritfen av bilder til skjermen, da jeg synes den innebygde skriv-bilde-til-skjerm-funksjonaliteten til TFT-objektet ikke gikk spesielt fort, i tillegg til at den ikke var optimalisert for mitt bruk. Den endelige koden er modifisert for å passe til de bildene jeg skal skrive ut, og har dermed redusert størrelse på variabler og liknenede for å spare mest mulig plass.
+
 ### Frigjøring av dynamisk minne (sRAM)
 For å sikre at det var nok dynamisk minne på Arduinoen, har jeg gjort ganske mange tiltak for å ha mest mulig ledig plass.
 
@@ -52,7 +54,9 @@ Hver av disse trådene delegerer oppgavene videre til scenen som er lastet inn i
 
 Et problem med å bruke `new`/`delete` nøkkelordene, er at man allokerer og deallokerer minne på heapen, noe som kan føre til probelemer, spesielt på en Arduino. Som beskrevet [her](https://learn.adafruit.com/memories-of-an-arduino?view=all#solving-memory-problems), kan man ende opp med en fragmentert heap, og til slutt gå tom for minne, fordi det finnes mange ledige plasser rundt om i minnet, men disse er omringet av andre data. Jeg har forsøkt å debugge programmet, og hele tiden sjekke hvor mye ledig minne jeg har, og jeg har kommet frem til at dette sannsynligvis ikke er et problem men den strukturen jeg har nå. (For å kjøre med minne debug, fjern kommentarene i `Debugger.h`, men det er sannsynligvis ikke plass til det nå) I og med at hver level som blir opprettet havner sist på heapen, og ingen andre variabler allokeres under hver level, vil hele levelen bli fjernet fra heapen av spill-scenen når den avsluttes. Dermed vil hele denen delen av minnet frigjøres, og det vil sannsynligvis ikke føre til fragmentering. Det samme gjelder også for hver scene. Hver scene blir slettet før den nye opprettes, og alle levler blir slettet før en scene slettes. På denne måten er jeg ganske sikker på at heapen ikke vil fragmenteres, og koden vil fungere.
 
-Dette scene-prinsippet har jeg også brukt inne i spill-scenen, hvor hver level lastes inn og slettes, slik at det kun er en level i minnet av gangen. På denne måten sørger jeg også for at hver level har nok minne til å kunne kjøre.
+Dette scene-prinsippet har jeg også brukt inne i spill-scenen, hvor hver level lastes inn og slettes, slik at det kun er en level i minnet av gangen. På denne måten sørger jeg også for at hver level har nok minne til å kunne kjøre. En level er egentlig også bare en scene, men de holdes inne i spill-scenen, slik at den kan holde styr på status for spillet. Jeg valgte å gjøre dette for å få bedre struktur på koden. Jeg kunne godt ha droppet spill scenen, og heller kjørt alt fra hovedprogrammet, men da ville koden litt mindre oversiktlig, og det ville sannsynligivs oppstått problemer med å ha tilfeldig rekkefølge på de ulike levlene. (Slik det er nå)
+
+Jeg valgte å gjøre slik at levlene kommer i forskjellig rekkefølge, for å gjøre spillet litt mer variert, og ikke like forutsigbart. I forbindelse med dette var det litt vanskelig å få til en god seed for tallgeneratoren, men jeg tror jeg til slutt har klart å komme frem til et regnestykke som fungerer, ved å lese alle analoge porter, pluss port en og to, legge til en til hver og en av de og gange de sammen.
 
 ## Fritzing
 Koblingsskjemaet for løsningen ligger i mappen `docs`, i Fritzing-formatet `.fzz` og som vektorgrafikk `.svg`. Jeg har forsøkt å gjøre skjemaet så oversiktlig som mulig, men i og med at alle portene er i bruk, blir det naturlig nok en del kaos.
@@ -72,3 +76,4 @@ Koblingsskjemaet for løsningen ligger i mappen `docs`, i Fritzing-formatet `.fz
 ### Grafikk
 - Eksplosjonsbilde - http://images.alphacoders.com/305/30521.jpg
 - Borat - http://41.media.tumblr.com/677f0fe299bc53879495d2612ea34e73/tumblr_mki0j9fxK81s5jjtzo1_500.png
+- BMP filformat - http://www.fastgraph.com/help/bmp_header_format.html
