@@ -11,7 +11,7 @@ All kildekoden ligger i mappen `src/Bomb_Squad`, og all grafikk som kreves ligge
 ## Forutsetninger
 Det er en del forutsetninger som ligger til grunn for at løsningen skal kunne kjøres. For det første må alle filene i mappen `res` legges over på roten av et minnekort som støttes av Arduino's SD-bibliotek, og settes i skjermen, slik at grafikk kan bli lastet inn i programmet.
 
-I og med at progammet så og si tar hele programminnet på Arduinoen, er det ikke sikkert det vil kompilere fra alle maskiner. Jeg har kompilert koden både på Windows og Ubuntu, og det skiller noen bytes til og fra. (10 bytes forskjell cirka) Jeg regner med at dette ikke er et problem.
+I og med at progammet så og si tar hele programminnet på Arduinoen, er det ikke sikkert det vil kompilere fra alle maskiner. Jeg har kompilert koden både på Windows og Ubuntu, og det skiller noen bytes til og fra. (10 bytes forskjell cirka. Jeg er 2 bytes under grensen på Ubuntu) Jeg regner med at dette ikke er et problem.
 
 Siden det er forskjell fra skjerm til skjerm på akselereometeret, har jeg lagt ved et prosjekt i `src/Accelerometer_Setup`. Hvis man kjører dette programmet og legger skjermen flatt, kan man ta gjennomsnittsverdiene for x og y og putte disse inn i filen `Accelerometer.h` i BombSquad-prosjektet. Dette er for å kaliberere akselereometeret slik at spillet fungere optimalt.
 
@@ -27,9 +27,10 @@ Jeg har lagt på en nedtelling, men er litt usikker på hvor godt balansert den 
 ## Visuelt uttrykk
 Det meste av grafikk i spillet har jeg laget selv, men noen bilder jeg har funnet på internett. Se punktet [grafikk](#grafikk) i kildelisten under. Jeg har forsøkt å bruke bilder for å *sprite opp* spillopplevelsen mer, og gjøre spillet mer livlig. I tillegg har jeg forsøkt å putte inn noen subtile animasjoner enkelte steder, for å gi grafikken mer liv. På for eksempel splash-skjermen har jeg lagt inn noen partikler som kommer fra lunta på bomba. Jeg har forsøkt å kombinere bilde-grafikken sammen med direkte tegning til skjerm, for å kunne lage mer detaljerte punktgrafikkbilder og gjøre de livlige med å tegne oppå de med kode.
 
+## Lyd
+Jeg har tatt i bruk noe lyd, for å gjøre spillet litt mer interessant og levende. Jeg har lagt til en bombe-nedtellings-lyd under hele spillet, som i tillegg blinker en led i takt. Denne led-en er direkte koblet til høyttaleren, i og med at jeg ikke hadde flere ledige porter. Jeg har også en liten lyd som spilles av hvis man vinner
+
 ## Kode
-
-
 ### Frigjøring av dynamisk minne (sRAM)
 For å sikre at det var nok dynamisk minne på Arduinoen, har jeg gjort ganske mange tiltak for å ha mest mulig ledig plass.
 
