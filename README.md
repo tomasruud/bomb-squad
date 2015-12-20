@@ -1,4 +1,6 @@
 # Dokumentasjon
+**Obs!** Hvis koden ikke kompilerer på grunn av plassmangel, les forutsetninger.
+
 Videodemonstrasjon av løsningen kan sees her: https://youtu.be/AQeiSyJKehU
 
 Jeg hadde ikke stativ tilgjengelig, så det ble litt vinglete, men jeg tror det viser greit en del av spillet. Jeg måtte klippe det sammen litt, fordi det var ekstremt vanskelig å gjennomføre spillet mens jeg filmet. I tillegg ble jeg frustrert av å ikke klare minispillene.
@@ -11,7 +13,11 @@ All kildekoden ligger i mappen `src/Bomb_Squad`, og all grafikk som kreves ligge
 ## Forutsetninger
 Det er en del forutsetninger som ligger til grunn for at løsningen skal kunne kjøres. For det første må alle filene i mappen `res` legges over på roten av et minnekort som støttes av Arduino's SD-bibliotek, og settes i skjermen, slik at grafikk kan bli lastet inn i programmet.
 
-I og med at progammet så og si tar hele programminnet på Arduinoen, er det ikke sikkert det vil kompilere fra alle maskiner. Jeg har kompilert koden både på Windows og Ubuntu, og det skiller noen bytes til og fra. (10 bytes forskjell cirka. Jeg er 2 bytes under grensen på Ubuntu) Jeg regner med at dette ikke er et problem.
+I og med at progammet så og si tar hele programminnet på Arduinoen, er det ikke sikkert det vil kompilere fra alle maskiner. Jeg har kompilert koden både på Windows og Ubuntu, og det skiller noen bytes til og fra. (8 bytes forskjell cirka) Hvis du ikke får kompilert på grunn av plassmangel, gå inn i filen `Game_Over_Scene.cpp` og fjern kommentaren fra linja:
+```cpp
+// #define SAVE_SPACE
+```
+slik at `SAVE_SPACE` er definert. Denne skrur av game over-lyden, som ikke er absolutt nødvendig.
 
 Siden det er forskjell fra skjerm til skjerm på akselereometeret, har jeg lagt ved et prosjekt i `src/Accelerometer_Setup`. Hvis man kjører dette programmet og legger skjermen flatt, kan man ta gjennomsnittsverdiene for x og y og putte disse inn i filen `Accelerometer.h` i BombSquad-prosjektet. Dette er for å kaliberere akselereometeret slik at spillet fungere optimalt.
 

@@ -171,10 +171,8 @@ LevelAction MarbleMazeLevel::HandleLevelInput() {
                      _ball_position_x + BALL_SIZE + 2, _ball_position_y - 2, COLOR_RED);
   }
 
-  if(_game.won) {
-    delay(500);
+  if(_game.won)
     return NEXT;
-  }
 
   ReadAccelerometer();
 
