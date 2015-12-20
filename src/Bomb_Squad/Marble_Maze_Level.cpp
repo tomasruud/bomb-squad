@@ -10,7 +10,7 @@
 
 #define THRESHOLD 1
 #define BOUNDS 50
-#define MAX_SPEED 13
+#define MAX_SPEED 9
 
 #define BALL_SIZE 8
 

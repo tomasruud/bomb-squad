@@ -13,17 +13,17 @@
 #include "High_Low_Level.h"
 #include "Marble_Maze_Level.h"
 #include "Wire_Level.h"
-#include "Lock_Level.h"
+#include "Breakout_Level.h"
 
 #define CLOCK_X 124
 #define CLOCK_Y 109
 
-#define TIME_EASY 70
+#define TIME_EASY 90
 
 void GameScene::PrepareLevels() {
 
   LevelID game_levels[] = {
-    LevelID_Lock,
+    LevelID_Breakout,
     LevelID_MarbleMaze,
     LevelID_HighLow
   };
@@ -103,7 +103,7 @@ void GameScene::Bootstrap() {
   PrepareLevels();
   while(MissingWires());
 
-  _time = TIME_EASY - (g_difficulty * 20);
+  _time = TIME_EASY - (g_difficulty * 5);
   _printed_time.did_draw = 0;
 
   ShowIntro();
@@ -135,8 +135,8 @@ Level *GameScene::BuildLevel(LevelID id) {
     case LevelID_HighLow:
       return new HighLowLevel(_screen);
 
-    case LevelID_Lock:
-      return new LockLevel(_screen);
+    case LevelID_Breakout:
+      return new BreakoutLevel(_screen);
 
     case LevelID_MarbleMaze:
       return new MarbleMazeLevel(_screen);
