@@ -10,8 +10,6 @@ void WireLevel::Bootstrap() {
 }
 
 void WireLevel::HandleFrame(unsigned char frame) {
-
-
 }
 
 LevelAction WireLevel::HandleLevelInput() {
@@ -26,7 +24,7 @@ LevelAction WireLevel::HandleLevelInput() {
       return GAME_OVER;
 
     else if(_color == the_wire && BombWire::IsRemoved(the_wire)) {
-      _removed->wires[_removed->count++] = _color; 
+      _removed->wires[_removed->count++] = _color;
       return NEXT;
     }
   }
@@ -66,10 +64,6 @@ void WireLevel::Draw() {
       strcpy(color, "YELLOW");
     break;
   }
-
-  _screen->fillScreen(COLOR_BG);
-
-  _container->NotifyRedrawTimer();
 
   _screen->setTextSize(FONT_SIZE_LARGE);
 

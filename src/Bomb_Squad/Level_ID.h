@@ -4,6 +4,7 @@
 typedef enum LevelID {
   LevelID_HighLow,
   LevelID_MarbleMaze,
+  LevelID_Lock,
 
   LevelID_WireBlue,
   LevelID_WireOrange,

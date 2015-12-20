@@ -15,6 +15,15 @@ struct Wall {
   uint16_t length:5;
 };
 
+const Wall walls[] = {
+  { .horizontal = 0, .x = 2,  .y = 2,  .length = 8 },
+  { .horizontal = 1, .x = 2,  .y = 10, .length = 8 },
+  { .horizontal = 0, .x = 10, .y = 5,  .length = 14 },
+  { .horizontal = 0, .x = 10, .y = 0,  .length = 2 },
+  { .horizontal = 1, .x = 10, .y = 7,  .length = 10 },
+  { .horizontal = 0, .x = 6,  .y = 0,  .length = 6 }
+};
+
 // WALL_X      0 - 19
 // WALL_Y      0 - 15
 // WALL_LENGTH 0 - 15 or 0 - 19
@@ -27,24 +36,11 @@ class MarbleMazeLevel : public Level {
     virtual void HandleFrame(unsigned char frame);
     virtual LevelAction HandleLevelInput();
 
-    void SetContainer(GameScene *scene) {
-      _container = scene;
-    };
-
   private:
     void ReadAccelerometer();
     void HandleBounds();
     bool CheckCollision();
     void DrawWalls();
-
-    Wall walls[WALLS] = {
-      { .horizontal = 0, .x = 2, .y = 2, .length = 8 },
-      { .horizontal = 1, .x = 2, .y = 10, .length = 8 },
-      { .horizontal = 0, .x = 10, .y = 5, .length = 14 },
-      { .horizontal = 0, .x = 10, .y = 0, .length = 2 },
-      { .horizontal = 1, .x = 10, .y = 7, .length = 10 },
-      { .horizontal = 0, .x = 6, .y = 0, .length = 6 }
-    };
 
     uint16_t GetAverageX() {
       return _x_total / SAMPLES;
@@ -53,8 +49,6 @@ class MarbleMazeLevel : public Level {
     uint16_t GetAverageY() {
       return _y_total / SAMPLES;
     };
-
-    GameScene *_container;
 
     uint16_t _x_samples[SAMPLES];
     uint16_t _y_samples[SAMPLES];

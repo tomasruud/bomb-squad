@@ -1,4 +1,7 @@
 #include "High_Low_Level.h"
+
+#include <avr/pgmspace.h>
+
 #include "Display.h"
 #include "Colors.h"
 #include "Image.h"
@@ -6,9 +9,6 @@
 
 #define HIGH 10
 #define MAX_ROUNDS (4 + g_difficulty)
-
-
-#define ROUND_X
 
 void HighLowLevel::Bootstrap() {
 
@@ -19,8 +19,8 @@ void HighLowLevel::Bootstrap() {
   _data.number = random(0, HIGH);
   _data.last_number = _data.number;
 
-  ImageUtil::Draw(_screen, "4/0.bmp", 60, 40);
-  ImageUtil::Draw(_screen, "4/1.bmp", 20, 20);
+  ImageUtil::Draw(_screen, 10, 60, 40);
+  ImageUtil::Draw(_screen, 11, 20, 20);
 
   _screen->drawChar(120, 20, '/', COLOR_TEXT, COLOR_BG, FONT_SIZE_LARGE);
 

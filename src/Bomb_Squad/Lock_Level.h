@@ -5,11 +5,11 @@
 
 class LockLevel: public Level {
   public:
-    LockLevelScene(TFT *screen) : Level(screen) {}
+    LockLevel(TFT *screen) : Level(screen) {}
 
     virtual void Bootstrap();
     virtual void HandleFrame(unsigned char frame);
-    virtual LevelAction HandleInput();
+    virtual LevelAction HandleLevelInput();
 };
 
 #endif

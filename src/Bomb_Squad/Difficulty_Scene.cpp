@@ -1,3 +1,5 @@
+#include <avr/pgmspace.h>
+
 #include "Difficulty_Scene.h"
 #include "Colors.h"
 #include "Display.h"
@@ -5,15 +7,17 @@
 #include "Globals.h"
 #include "Image.h"
 
+#define NEXT_LEVEL SceneID_Game
+
 void DifficultyScene::Bootstrap() {
 
   _option = g_difficulty;
 
-  ImageUtil::Draw(_screen, "1/0.bmp", 9, 16);
-  ImageUtil::Draw(_screen, "1/1.bmp", 94, 54);
-  ImageUtil::Draw(_screen, "1/2.bmp", 70, 72);
-  ImageUtil::Draw(_screen, "1/3.bmp", 92, 90);
-  ImageUtil::Draw(_screen, "1/4.bmp", 17, 57);
+  ImageUtil::Draw(_screen, 2, 9, 16);
+  ImageUtil::Draw(_screen, 3, 94, 54);
+  ImageUtil::Draw(_screen, 4, 70, 72);
+  ImageUtil::Draw(_screen, 5, 92, 90);
+  ImageUtil::Draw(_screen, 6, 17, 57);
 }
 
 void DifficultyScene::HandleFrame(unsigned char frame) {
@@ -58,7 +62,7 @@ SceneID DifficultyScene::HandleInput() {
 
   if(digitalRead(BUTTON_PIN) == BUTTON_DOWN) {
     g_difficulty = _option;
-    return SceneID_Instructions;
+    return NEXT_LEVEL;
   }
 
 

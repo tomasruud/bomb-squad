@@ -22,12 +22,15 @@ uint32_t ImageUtil::Read4(File f) {
   return result;
 }
 
-void ImageUtil::Draw(TFT *screen, char *filename, uint8_t x, uint8_t y) {
+void ImageUtil::Draw(TFT *screen, uint8_t file_id, uint8_t x, uint8_t y) {
 
   if((x >= TFT_W) || (y >= TFT_H))
     return;
 
-  File image_file = SD.open(filename);
+  char name_buffer[10];
+  strcpy_P(name_buffer, (char *) pgm_read_word(&(image_files[file_id])));
+
+  File image_file = SD.open(name_buffer);
 
   if (image_file == NULL)
     return;
@@ -78,7 +81,11 @@ void ImageUtil::Draw(TFT *screen, char *filename, uint8_t x, uint8_t y) {
               buffidx = 0;
             }
 
-            screen->pushColor(Color::BGR(sdbuffer[buffidx++], sdbuffer[buffidx++], sdbuffer[buffidx++]));
+            uint8_t b = sdbuffer[buffidx++];
+            uint8_t g = sdbuffer[buffidx++];
+            uint8_t r = sdbuffer[buffidx++];
+
+            screen->pushColor(RGB(r, g, b));
           }
         }
       }

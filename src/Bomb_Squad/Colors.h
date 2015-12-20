@@ -12,11 +12,4 @@
 #define COLOR_RED RGB(248, 18, 18)
 #define COLOR_GRAY RGB(24, 24, 24)
 
-class Color {
-  public:
-    static uint16_t BGR(uint8_t b, uint8_t g, uint8_t r) {
-      return RGB(b, g, r);
-    };
-};
-
 #endif

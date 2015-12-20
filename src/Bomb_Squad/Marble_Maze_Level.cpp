@@ -10,7 +10,7 @@
 
 #define THRESHOLD 1
 #define BOUNDS 50
-#define MAX_SPEED 12
+#define MAX_SPEED 13
 
 #define BALL_SIZE 8
 
@@ -40,8 +40,6 @@ void MarbleMazeLevel::Bootstrap() {
 
   _screen->fillRect(TFT_W - 20, 0, 20, 20, COLOR_GREEN);
 
-  _container->NotifyRedrawTimer();
-
   for(uint8_t i = 0; i < SAMPLES; i++)
     ReadAccelerometer();
 
@@ -68,7 +66,7 @@ void MarbleMazeLevel::ReadAccelerometer() {
 void MarbleMazeLevel::DrawWalls() {
 
   for(uint8_t i = 0; i < WALLS; i++) {
-    Wall *wall = walls + i;
+    const Wall *wall = walls + i;
 
     if(wall->horizontal == 0x1)
       _screen->fillRect(wall->x * 8, wall->y * 8, wall->length * 8, WALL_THIKNESS, COLOR_RED);
@@ -95,7 +93,7 @@ void MarbleMazeLevel::HandleBounds() {
 bool MarbleMazeLevel::CheckCollision() {
 
   for(uint8_t i = 0; i < WALLS; i++) {
-    Wall *wall = walls + i;
+    const Wall *wall = walls + i;
 
     uint8_t wall_height = wall->horizontal ? WALL_THIKNESS : wall->length * 8;
     uint8_t wall_width  = wall->horizontal ? wall->length * 8 : WALL_THIKNESS;

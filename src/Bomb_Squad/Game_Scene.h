@@ -7,8 +7,8 @@
 #include "Level_ID.h"
 #include "Bomb_Wires.h"
 
-#define LEVELS 2
-#define WIRE_LEVELS 2
+#define LEVELS 3
+#define WIRE_LEVELS 4
 
 class GameScene : public Scene {
   public:
@@ -17,10 +17,6 @@ class GameScene : public Scene {
     virtual void Bootstrap();
     virtual void HandleFrame(unsigned char frame);
     virtual SceneID HandleInput();
-
-    void NotifyRedrawTimer() {
-      _printed_time.did_draw = 0;
-    };
 
   private:
     void LoadLevel();
@@ -51,8 +47,6 @@ class GameScene : public Scene {
     LevelID _levels[WIRE_LEVELS + LEVELS];
 
     WireArray _defused_wires;
-
-    bool _odd = true;
 };
 
 #endif

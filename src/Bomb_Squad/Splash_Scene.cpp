@@ -1,4 +1,7 @@
 #include "Splash_Scene.h"
+
+#include <avr/pgmspace.h>
+
 #include "Display.h"
 #include "Colors.h"
 #include "Arduino.h"
@@ -7,8 +10,8 @@
 
 void SplashScene::Bootstrap() {
 
-  ImageUtil::Draw(_screen, "0/0.bmp", 7, 13);
-  ImageUtil::Draw(_screen, "0/1.bmp", 21, 117);
+  ImageUtil::Draw(_screen, 0, 7, 13);
+  ImageUtil::Draw(_screen, 1, 21, 117);
 }
 
 void SplashScene::HandleFrame(unsigned char frame) {
@@ -27,17 +30,14 @@ SceneID SplashScene::HandleInput() {
 
 void SplashScene::AnimateText(unsigned char frame) {
 
-  const char splash_press_button[] = "[PRESS BUTTON]";
-
   if(frame == 0) {
     _screen->setTextColor(_show ? COLOR_TEXT : COLOR_BG);
     _show = !_show;
 
     _screen->setTextSize(FONT_SIZE_SMALL);
-    _screen->setCursor(TFT_W2 - (FONT_SIZE_SMALL * FONT_WIDTH *
-                       strlen(splash_press_button)) / 2, 100);
+    _screen->setCursor(TFT_W2 - (FONT_SIZE_SMALL * FONT_WIDTH * 7), 100);
 
-    _screen->print(splash_press_button);
+    _screen->print(F("[PRESS BUTTON]"));
   }
 }
 

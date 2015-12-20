@@ -1,5 +1,7 @@
 #include "Game_Scene.h"
 
+#include <avr/pgmspace.h>
+
 #include "Pitches.h"
 #include "Display.h"
 #include "Colors.h"
@@ -13,18 +15,22 @@
 #include "High_Low_Level.h"
 #include "Marble_Maze_Level.h"
 #include "Wire_Level.h"
+#include "Lock_Level.h"
 
 #define CLOCK_X 124
 #define CLOCK_Y 109
 
+#define TIME_EASY 70
+
 void GameScene::PrepareLevels() {
 
-  LevelID game_levels[2] = {
+  LevelID game_levels[LEVELS] = {
     LevelID_MarbleMaze,
-    LevelID_HighLow
+    LevelID_HighLow,
+    LevelID_Lock
   };
 
-  LevelID wire_levels[4] = {
+  LevelID wire_levels[WIRE_LEVELS] = {
     LevelID_WireBlue,
     LevelID_WireOrange,
     LevelID_WireGreen,
@@ -41,8 +47,8 @@ void GameScene::PrepareLevels() {
   }
 
   // Shuffle wire order
-  for(uint8_t i = 0; i < sizeof(wire_levels) / sizeof(wire_levels[0]) - 1; i++) {
-    uint8_t j = random(1, sizeof(wire_levels) / sizeof(wire_levels[0]) - i);
+  for(uint8_t i = 0; i < WIRE_LEVELS - 1; i++) {
+    uint8_t j = random(1, WIRE_LEVELS - i);
 
     LevelID temp = wire_levels[0];
     wire_levels[0] = wire_levels[j];
@@ -51,7 +57,7 @@ void GameScene::PrepareLevels() {
 
   // Splice levels and wires
   for(uint8_t i = 0, wire = 0, game = 0; i < _level_count; i++) {
-    if(i % 2 == 0)
+    if(i % 2 == 1)
       _levels[i] = game_levels[game++];
     else
       _levels[i] = wire_levels[wire++];
@@ -85,7 +91,7 @@ void GameScene::ShowIntro() {
   _screen->setTextSize(FONT_SIZE_SMALL);
   _screen->setTextColor(COLOR_TEXT);
 
-  _screen->println("Get ready");
+  _screen->println(F("Get ready"));
 
   delay(1500);
 
@@ -99,7 +105,7 @@ void GameScene::Bootstrap() {
   PrepareLevels();
   while(MissingWires());
 
-  _time = 120 - (g_difficulty * 20);
+  _time = TIME_EASY - (g_difficulty * 20);
   _printed_time.did_draw = 0;
 
   ShowIntro();
@@ -121,23 +127,23 @@ Level *GameScene::BuildLevel(LevelID id) {
     case LevelID_HighLow:
       return new HighLowLevel(_screen);
 
-    case LevelID_MarbleMaze: {
-      MarbleMazeLevel *level = new MarbleMazeLevel(_screen);
-      level->SetContainer(this);
-      return level;
-    }
+    case LevelID_Lock:
+      return new LockLevel(_screen);
+
+    case LevelID_MarbleMaze:
+      return new MarbleMazeLevel(_screen);
 
     case LevelID_WireBlue:
-      return new WireLevel(_screen, W_BLUE, &_defused_wires, this);
+      return new WireLevel(_screen, W_BLUE, &_defused_wires);
 
     case LevelID_WireOrange:
-      return new WireLevel(_screen, W_ORANGE, &_defused_wires, this);
+      return new WireLevel(_screen, W_ORANGE, &_defused_wires);
 
     case LevelID_WireGreen:
-      return new WireLevel(_screen, W_GREEN, &_defused_wires, this);
+      return new WireLevel(_screen, W_GREEN, &_defused_wires);
 
     case LevelID_WireYellow:
-      return new WireLevel(_screen, W_YELLOW, &_defused_wires, this);
+      return new WireLevel(_screen, W_YELLOW, &_defused_wires);
   }
 
   return NULL;
@@ -149,8 +155,7 @@ void GameScene::HandleFrame(unsigned char frame) {
     _current_level->HandleFrame(frame);
 
   if(frame % FPS == 1) {
-    tone(AUDIO_PIN, _odd ? NOTE_C3 : NOTE_F2, 250);
-    _odd = !_odd;
+    tone(AUDIO_PIN, NOTE_C4, 250); // C4 hehe
 
     _time--;
     g_time_left = _time;
@@ -163,7 +168,7 @@ void GameScene::WriteTime() {
   uint8_t cursor = 0;
 
   if(_printed_time.did_draw == 0)
-    ImageUtil::Draw(_screen, "0.bmp", CLOCK_X - 9, CLOCK_Y - 21);
+    ImageUtil::Draw(_screen, 12, CLOCK_X - 9, CLOCK_Y - 21);
 
   if(_printed_time.did_draw == 0 || ((_time / 60) / 10) != _printed_time.minute0) {
     _screen->drawChar(CLOCK_X + cursor, CLOCK_Y, '0' + _printed_time.minute0,
@@ -241,6 +246,9 @@ SceneID GameScene::HandleInput() {
 
       if(_level_index >= _level_count)
         return SceneID_GameWin;
+
+      _screen->fillScreen(COLOR_BG);
+      _printed_time.did_draw = 0;
 
       LoadLevel();
     break;

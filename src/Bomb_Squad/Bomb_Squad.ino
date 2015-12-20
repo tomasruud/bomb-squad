@@ -125,7 +125,7 @@ void setup_screen() {
 bool setup_sd() {
 
   if(!SD.begin(SD_CS)) {
-    screen.println("SD");
+    screen.println(F("SD"));
     return false;
   }
 
