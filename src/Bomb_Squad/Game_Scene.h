@@ -8,8 +8,8 @@
 #include "Level_ID.h"
 #include "Bomb_Wires.h"
 
-#define LEVELS 1
-#define WIRE_LEVELS 1
+#define LEVELS 3
+#define WIRE_LEVELS 4
 #define BEEP_RATE 1
 
 class GameScene : public Scene {
